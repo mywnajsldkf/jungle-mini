@@ -1,0 +1,149 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>정글미니</title>
+    <style>
+        * {
+            color: green;
+        }
+
+        .wrap {
+            width: 1920px;
+            height: 1080px;
+            background-color: black;
+        }
+
+        .main-header {
+            width: 1400px;
+            margin: auto;
+        }
+
+        #search {
+            width: 80%;
+            height: 80px;
+            border: 2px solid #FFFFFF;
+            border-radius: 50px;
+            margin: 30px auto;
+        }
+
+        #login {
+            background-color: transparent;
+            color: green;
+            border: 2px solid transparent;
+            width: 15%;
+            font-size: 30px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            /*다른 요소들보다 앞에 배치*/
+        }
+
+        .dropdown-content a {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .favoritearticle_panel {
+            display: inline-block;
+            width: 1000px;
+        }
+
+        .myarticle_panel {
+            display: inline-block;
+            width: 1000px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $(".myarticle_panel").css('display', 'none');
+        });
+
+        function showfavoritearticle() {
+            console.log("fskksdf")
+            if($(".favoritearticle_panel").css('display') != 'none') {
+                $(".favoritearticle_panel").css('display', 'none');
+            }
+            if($(".myarticle_panel").css('display') == 'none') {
+                $(".myarticle_panel").css('display', 'block');
+            }
+        }
+        function showmyarticle() {
+
+        }
+    </script>
+</head> -->
+
+<script>
+    function showprofile(category_name) {
+        if(category_name == "like") {
+
+        }
+        else if(category_name =="write") {
+
+        }
+    }
+</script>
+
+<!-- <div class="wrap">
+    <div class="main-header">
+        <input id="search" placeholder="검색창" />
+        <button id="login" style="width: 100px;">LOGIN</button>
+        <div class="dropdown">
+            <span class="dropbtn" style="font-size: 30px; padding-left: 20px;">MYPAGE</span>
+            <div class="dropdown-content">
+                <a href="/profile">프로필</a>
+                <a href="/write">글쓰기</a>
+                <a href="/logout">로그아웃</a>
+            </div>
+        </div>
+    </div> -->
+
+<!-- {% extends "base.html" %}
+{% block content %}
+<h2>{{ template_name }} 님의 성적</h2>
+<ul>
+    {% for key, value in template_score.items() %}
+    <li>{{ key }} : {{ value }}</li>
+    {% endfor%}
+</ul>
+{% endblock %} -->
+
+
+<hr style="margin: 0px auto 20px;">
+<button onclick="showfavoritearticle()" id="login" style="width: 200px;">좋아요</button>
+<button onclick="showmyarticle()" id="login" style="width: 200px;">내가 쓴 글</button>
+<br>
+<div class="favoritearticle_panel">
+    <h5 id="title0">1번째 제목</h5>
+    <hr>
+    <h5 id="title1">2번째 제목</h5>
+    <hr>
+    <h5 id="title2">3번째 제목</h5>
+</div>
+<div class="myarticle_panel">
+    <h5 id="title0">4번째 제목</h5>
+    <hr>
+    <h5 id="title1">5번째 제목</h5>
+    <hr>
+    <h5 id="title2">6번째 제목</h5>
+</div>
+<!-- </div> -->

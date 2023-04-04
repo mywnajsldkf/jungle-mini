@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>SW사관학교 정글 | 로그인페이지</title>
+    <style>
+        * {
+            font-family: 'Jua', sans-serif;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 16px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #cdd0d3;
+            box-sizing: content-box;
+            height: 0;
+            overflow: visible;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        label {
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        input:focus {
+            /*활성화되면 아웃라인 생김*/
+            outline: 3px solid #aed4fd;
+            border: 1px solid #69b2ff;
+        }
+
+        textarea:focus {
+            /*활성화되면 아웃라인 생김*/
+            outline: 3px solid #aed4fd;
+            border: 1px solid #69b2ff;
+        }
+
+        .wrap {
+            margin: auto;
+            width: 900px;
+        }
+
+        .jumbotron {
+            padding: 64px 32px;
+            margin-bottom: 32px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        .display-4 {
+            font-size: 56px;
+            font-weight: 300;
+            line-height: 1.2;
+            display: inline-block;
+        }
+
+        .version {
+            color: white;
+            background-color: gray;
+        }
+
+        #memo-title {
+            display: block;
+            width: 65%;
+            height: 35px;
+            padding: 5px 10px;
+            margin-bottom: 16px;
+            border: 1px solid #c8cbce;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #new-title {
+            display: block;
+            width: 100%;
+            height: 35px;
+            padding: 5px 10px;
+            margin-bottom: 16px;
+            border: 1px solid #c8cbce;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #memo-content {
+            display: block;
+            width: 65%;
+            height: 60px;
+            padding: 5px 10px;
+            margin-bottom: 16px;
+            border: 1px solid #c8cbce;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #new-text {
+            display: block;
+            width: 100%;
+            height: 60px;
+            padding: 5px 10px;
+            margin-bottom: 16px;
+            border: 1px solid #c8cbce;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .lead {
+            font-size: 20px;
+            font-weight: 300;
+        }
+
+        .my-4 {
+            margin-top: 24px !important;
+            /*포함관계 무시하고 강제적용*/
+            margin-bottom: 24px !important;
+        }
+
+        .btn {
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid transparent;
+            padding: 6px 12px;
+            font-size: 16px;
+            line-height: 1.5;
+            border-radius: 4px;
+        }
+
+        .btn-lg {
+            padding: 8px 16px;
+            font-size: 16px;
+            line-height: 1.5;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            color: white;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #1c69bb;
+        }
+
+        .btn-primary:focus {
+            outline: 3px solid #aed4fd;
+        }
+
+        .edit-button {
+            color: white;
+            background-color: rgb(0, 180, 180);
+        }
+
+        .edit-button:hover {
+            background-color: rgb(0, 150, 150);
+        }
+
+        .delete-button {
+            color: white;
+            background-color: rgb(220, 0, 0);
+        }
+
+        .delete-button:hover {
+            background-color: rgb(190, 0, 0);
+        }
+
+        .save-button {
+            color: white;
+            background-color: rgb(0, 180, 0);
+        }
+
+        .save-button:hover {
+            color: white;
+            background-color: rgb(0, 150, 0);
+        }
+
+        .link-like {
+            cursor: pointer;
+        }
+
+        .link-like:hover {
+            text-decoration: underline;
+        }
+
+        .posting-box {
+            display: none;
+            width: 500px;
+            padding: 25px;
+            border: 3px solid black;
+            border-radius: 5px;
+            margin: 10px auto 30px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 38px;
+            padding: 6px 12px;
+            font-size: 16px;
+            font-weight: 400;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        .card-list {
+            column-count: 3;
+            column-gap: 20px;
+            orphans: 1;
+            widows: 1;
+        }
+
+        .card {
+            display: inline-block;
+            width: 100%;
+            /*900px을 gap 빼주고 3등분 한 것을 100%로 치는듯*/
+            margin-bottom: 12px;
+            padding: 20px;
+            background-clip: border-box;
+            border: 1px solid rgb(211, 211, 211);
+            border-radius: 4px;
+        }
+
+        .origin-card {
+            height: 150px;
+        }
+
+        .new-card {
+            display: none;
+        }
+
+        .card-img-top {
+            width: 100%;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .comment {
+            font-weight: bold;
+            color: blue;
+        }
+
+        div.clickEffect {
+            position: fixed;
+            box-sizing: border-box;
+            border-style: solid;
+            border-color: #007bff;
+            border-radius: 50%;
+            animation: clickEffect 0.4s ease-out;
+            z-index: 99999;
+        }
+
+        @keyframes clickEffect {
+            0% {
+                opacity: 1;
+                width: 0.5em;
+                height: 0.5em;
+                margin: -0.25em;
+                border-width: 0.15rem;
+            }
+
+            100% {
+                opacity: 0.2;
+                width: 3em;
+                height: 3em;
+                margin: -1.5em;
+                border-width: 0.15rem;
+            }
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $(".card-list").html("");
+            showMemos();
+        });
+
+        function clickEffect(e) {
+            var d = document.createElement("div");
+            d.className = "clickEffect";
+            d.style.top = e.clientY + "px"; d.style.left = e.clientX + "px";
+            document.body.appendChild(d);
+            d.addEventListener('animationend', function () { d.parentElement.removeChild(d); }.bind(this));
+        }
+        document.addEventListener('click', clickEffect);
+
+        function makeCard(title, content, like) {
+            let temp_html = `<div class="card">
+                                <div class="origin-card">
+                                    <p class="card-title">${title}</p>
+                                    <p class="card-text">${content}</p>
+                                    <p class="card-likes">${like}</p>
+                                    <button onclick="editMemo(this)" class="btn edit-button">수정</button>
+                                    <button onclick="deleteMemo('${title}')" class="btn delete-button">삭제</button>
+                                    <a onclick="likeMemo('${title}')" class="link-like" type="button">좋아요!</a>
+                                </div>
+                                <div class="new-card">
+                                    <input id="new-title" />
+                                    <textarea id="new-text"></textarea>
+                                    <button onclick="saveMemo(this)" class="btn save-button">저장</button>
+                                </div>
+                            </div>`
+            $(".card-list").append(temp_html)
+        }
+        function postMemo() {
+            let title = $("#memo-title").val();
+            let text = $("#memo-content").val();
+
+            // 2. memo에 POST 방식으로 메모 생성 요청하기
+            $.ajax({
+                type: "POST", // POST 방식으로 요청하겠다.
+                url: "/memo", // /memo라는 url에 요청하겠다.
+                data: { title_give: title, text_give: text }, // 데이터를 주는 방법
+                success: function (response) { // 성공하면
+                    if (response["result"] == "success") {
+                        alert("포스팅 성공!");
+                        // 3. 성공 시 페이지 새로고침하기
+                        window.location.reload();
+                    } else {
+                        alert("동일한 제목이 이미 존재합니다!")
+                    }
+                }
+            })
+        }
+        function showMemos() {
+            $.ajax({
+                type: "GET",
+                url: "/memo",
+                data: {},
+                success: function (response) {
+                    let memos = response["memos"];
+                    console.log(memos);
+                    for (let i = 0; i < memos.length; i++) {
+                        makeCard(memos[i]["title"], memos[i]["text"], memos[i]["like"]);
+                    }
+                }
+            })
+        }
+        function editMemo(button) {
+            // 작성 되어있던 title과 text를 가져옴
+            let title = $(button).siblings(".card-title").text()
+            let text = $(button).siblings(".card-text").text()
+
+            // 속해있는 div와 옆에 있는 div 캐싱.
+            let parent = $(button).parent()
+            let edit_card = parent.siblings()
+
+            // 자신의 div는 숨김. 옆 div는 보여주고 title과 text를 넣어줌.
+            parent.hide()
+            edit_card.show()
+            edit_card.find("#new-title").val(title)
+            edit_card.find("#new-text").val(text)
+        }
+        function saveMemo(button) {
+            let title = $(button).parent().siblings().find(".card-title").text()
+            console.log(title)
+            let newTitle = $(button).siblings("#new-title").val()
+            let newText = $(button).siblings("#new-text").val()
+            let parent = $(button).parent()
+            let card = parent.siblings()
+
+            // 2. memo에 POST 방식으로 메모 생성 요청하기
+            $.ajax({
+                type: "POST", // POST 방식으로 요청하겠다.
+                url: "/memo/save", // /memo라는 url에 요청하겠다.
+                data: { 'title_give': title, 'newTitle_give': newTitle, 'newText_give': newText }, // 데이터를 주는 방법
+                success: function (response) { // 성공하면
+                    if (response["result"] == "success") {
+                        // 성공 시 페이지 새로고침하기
+                        window.location.reload();
+                        parent.hide()
+                        card.show()
+                    } else {
+                        alert("서버 오류!")
+                    }
+                }
+            })
+        }
+        function likeMemo(title) {
+            $.ajax({
+                type: "POST",
+                url: "/memo/like",
+                data: { 'title_give': title },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        // 2. '좋아요 완료!' 얼럿을 띄웁니다.
+                        alert('좋아요 완료!')
+                        // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
+                        window.location.reload()
+                    }
+                }
+            });
+        }
+        function deleteMemo(title) {
+            // 1. 서버에 1) POST 방식으로, 2) /api/delete 라는 url에, 3) name_give라는 이름으로 name을 전달합니다.
+            // 참고) POST 방식이므로 data: {'name_give': name} 과 같은 양식이 되어야합니다!
+            $.ajax({
+                type: "POST",
+                url: "/memo/delete",
+                data: { 'title_give': title },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        // 2. '삭제 완료! 안녕!' 얼럿을 띄웁니다.
+                        alert('삭제 완료!')
+                        // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
+                        window.location.reload()
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="jumbotron">
+            <h1 class="display-4">나홀로메모장 <span class="version">ver2.0</span></h1>
+            <input id="memo-title" placeholder="제목을 입력하세요" />
+            <textarea id="memo-content" placeholder="내용을 입력하세요"></textarea>
+            <!-- <hr class="my-4"> -->
+            <p class="lead">
+                <button onclick="postMemo()" id="btn-posting-box" class="btn btn-primary btn-lg"
+                    type="submit">저장하기</button>
+            </p>
+        </div>
+        <div class="card-list">
+            <div class="card">
+                <div class="origin-card">
+                    <p class="card-title">첫번째 제목을 입력합니다</p>
+                    <p class="card-text">첫번째 내용을 입력합니다</p>
+                    <p class="card-likes">0</p>
+                    <button onclick="editMemo(this)" class="btn edit-button">수정</button>
+                    <button onclick="deleteMemo('첫번째 제목을 입력합니다')" class="btn delete-button">삭제</button>
+                    <a onclick="likeMemo('첫번째 제목을 입력합니다')" class="link-like" type="button">좋아요!</a>
+                </div>
+                <div class="new-card">
+                    <input id="new-title" />
+                    <textarea id="new-text"></textarea>
+                    <button onclick="saveMemo(this)" class="btn save-button">저장</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="origin-card">
+                    <p class="card-title">두번째 제목을 입력합니다</p>
+                    <p class="card-text">두번째 내용을 입력합니다</p>
+                    <p class="card-likes">0</p>
+                    <button onclick="editMemo(this)" class="btn edit-button">수정</button>
+                    <button onclick="deleteMemo('두번째 제목을 입력합니다')" class="btn delete-button">삭제</button>
+                    <a onclick="likeMemo('두번째 제목을 입력합니다')" class="link-like" type="button">좋아요!</a>
+                </div>
+                <div class="new-card">
+                    <input id="new-title" />
+                    <textarea id="new-text"></textarea>
+                    <button onclick="saveMemo(this)" class="btn save-button">저장</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

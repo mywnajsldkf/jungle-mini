@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정글미니</title>
+    <style>
+        .boards {
+            margin: auto;
+            width: 900px;
+        }
+
+        .board>h5 {
+            display: inline-block;
+        }
+
+        .board-data>h5 {
+            display: inline-block;
+        }
+
+        .board-data>#title {
+            width: 25%;
+        }
+
+        .board-data>#user {
+            width: 20%;
+        }
+
+        .board-data>#date {
+            width: 20%;
+        }
+
+        .board-data>#like {
+            width: 20%;
+        }
+
+        .board>#title {
+            width: 25%;
+        }
+
+        .board>#user {
+            width: 20%;
+        }
+
+        .board>#date {
+            width: 20%;
+        }
+
+        .board>#like {
+            width: 20%;
+        }
+        .addBoard {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+    <script>
+        function makeBoard(title, user, text, date, like) {
+            let temp_html = `<div class="board">
+                                <h5 id="title">${title}}</h5>
+                                <h5 id="user">${user}</h5>
+                                <h5 id="date">${date}</h5>
+                                <h5 id="like">${like}</h5>
+                            </div>`
+            $(".boards").append(temp_html)
+
+            $.ajax({
+                type: "POST",
+                url: "/board/save",
+                data: { 'title_give': title, 'user_give': user, 'date_give': date, 'text_give': text },
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        window.location.reload();
+                    } else {
+                        alert("서버 오류!")
+                    }
+                }
+            })
+        }
+        function showBoards() {
+            $.ajax({
+                type: "GET",
+                url: "/board",
+                data: {},
+                success: function (response) {
+                    let boards = response["boards"];
+                    console.log(boards);
+                    for (let i = 0; i < boards.length; i++) {
+                        makeBoard(boards[i]["title"], boards[i]["user"], boards[i]["date"], boards[i]["like"]);
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div class="boards">
+        <h1 class="board-category">소통게시판 <span class="version">1</span></h1>
+        <div class="board-data">
+            <h5 id="title">제목</h5>
+            <h5 id="user">작성자</h5>
+            <h5 id="date">작성일</h5>
+            <h5 id="like">좋아요</h5>
+        </div>
+        <hr>
+        <div class="board">
+            <h5 id="title">JungleMiniProject</h5>
+            <h5 id="user">PYB</h5>
+            <h5 id="date">2023.04.03</h5>
+            <h5 id="like">0</h5>
+        </div>
+    </div>
+</body>

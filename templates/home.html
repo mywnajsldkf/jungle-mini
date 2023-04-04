@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>정글미니</title>
+    <style>
+        * {
+            color: green;
+        }
+
+        .wrap {
+            width: 1920px;
+            height: 1080px;
+            background-color: black;
+        }
+
+        .main-header {
+            width: 1400px;
+            margin: auto;
+        }
+
+        #search {
+            width: 80%;
+            height: 80px;
+            border: 2px solid #FFFFFF;
+            border-radius: 50px;
+            margin: 30px auto;
+        }
+
+        #login {
+            background-color: transparent;
+            color: green;
+            border: 2px solid transparent;
+            width: 15%;
+            font-size: 30px;
+        }
+
+        .body1 {
+            margin: auto;
+            padding-top: 100px;
+            width: 1500px;
+        }
+
+        .body2 {
+            margin: auto;
+            padding-top: 100px;
+            width: 1500px;
+        }
+
+        .favorite,
+        .king {
+            display: inline-block;
+            width: 25%;
+
+            margin-left: 5%;
+        }
+
+        .communication {
+            display: inline-block;
+            width: 25%;
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .study {
+            display: inline-block;
+            width: 25%;
+
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .lifeinfo {
+            display: inline-block;
+            width: 25%;
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            /*다른 요소들보다 앞에 배치*/
+        }
+
+        .dropdown-content a {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            shownewest();
+            showfavorite();
+            showranking();
+        });
+        function showline(articles) {
+            // articles의 길이 3만큼 반복
+            for (let i = 0; i < articles.length; i++) {
+                let articleclass = articles[i]["articleclass"]
+                let title = articles[i]["title"]
+                let like = articles[i]["like"]
+
+                switch (articleclass) {
+                    case "communication":
+                        $(".communication > #title" + i).text(title);
+                        $(".communication > #like" + i).text(like)
+                        break;
+                    case "study":
+                        $(".study > #title" + i).text(title);
+                        $(".study > #like" + i).text(like)
+                        break;
+                    case "lifeinfo":
+                        $(".lifeinfo > #title" + i).text(title);
+                        $(".lifeinfo > #like" + i).text(like)
+                        break;
+                }
+            }
+        }
+        function shownewest() {
+            $.ajax({
+                type: "GET",
+                url: "/home/newest",
+                data: {},
+                success: function (response) {
+                    // 최신순으로 정렬된 배열을 넘겨받음
+                    let articles = response["articles"];
+                    console.log(articles);
+
+                    // 정렬한 배열에서 게시판별 3개 씩 가져오기
+                    let result1 = articles.filter(article => article["articleclass"] == "communication")
+                    let result2 = articles.filter(article => article["articleclass"] == "study")
+                    let result3 = articles.filter(article => article["articleclass"] == "lifeinfo")
+
+                    showline(result1)
+                    showline(result2)
+                    showline(result3)
+                }
+            })
+        }
+        function showfavorite() {
+            $.ajax({
+                type: "GET",
+                url: "/home/favorite",
+                data: {},
+                success: function (response) {
+                    // 좋아요순으로 정렬된 배열을 넘겨받음
+                    let articles = response["articles"];
+
+                    // 좋아요 1등 글로 내용을 바꿈
+                    // let content = articles[0]["content"];
+                    // $(".favorite > p").text(content);
+                }
+            })
+        }
+        function showranking() {
+            $.ajax({
+                type: "GET",
+                url: "/home/ranking",
+                data: {},
+                success: function (response) {
+                    // 작성글으로 정렬된 배열을 넘겨받음
+                    let users = response["users"];
+
+                    $(".king > #king0").text("1등 " + "유대겸"); // users[0]["name"]
+                    $(".king > #king1").text("2등 " + "박유빈"); // users[1]["name"]
+                    $(".king > #king2").text("2등 " + "김정인"); // users[2]["name"]
+                }
+            })
+        }
+        function inspectlogin() {
+            // 정상적으로 로그인 되었는지 검사
+            // 로그인 버튼을 띄울지 마이페이지 버튼을 띄울지
+
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="main-header">
+            <a href="/home">메인</a>
+            <input id="search" placeholder="검색창" />
+            <button id="login" style="width: 100px;">LOGIN</button>
+            <div class="dropdown">
+                <span class="dropbtn" style="font-size: 30px; padding-left: 20px;">MYPAGE</span>
+                <div class="dropdown-content">
+                    <a href="/profile/{{'like'}}">프로필</a>
+                    <a href="/write">글쓰기</a>
+                    <a href="/logout">로그아웃</a>
+                </div>
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+        <hr style="margin: 0px auto 20px;">
+        <div class="main-body">
+            <div class="body1">
+                <div class="communication">
+                    <h2 style="color:#FFFFFF">명예의 전당</h2>
+                    <h5 id="title0">00000000000</h5>
+                    <hr>
+                    <h5 id="title1">00000000000</h5>
+                    <hr>
+                    <h5 id="title2">00000000000</h5>
+                </div>
+                <div class="favorite" style="border: 2px solid #FFFFFF;">
+                    <p>
+                        C언어 기초 문법 총정리
+                        c언어는 컴퓨터 프로그래밍...
+                        중 하나..........
+                    </p>
+                </div>
+                <div class="king" style="border: 2px solid #FFFFFF;">
+                    <p id="king0">1등 ???</p>
+                    <p id="king1">2등 ???</p>
+                    <p id="king2">3등 ???</p>
+                </div>
+            </div>
+            <div class="body2">
+                <div class="communication">
+                    <h2 style="color:#FFFFFF">소통 게시판</h2>
+                    <h5 id="title0">1번째 제목</h5>
+                    <hr>
+                    <h5 id="title1">2번째 제목</h5>
+                    <hr>
+                    <h5 id="title2">3번째 제목</h5>
+                </div>
+                <div class="study">
+                    <h2 style="color:#FFFFFF">열공 게시판</h2>
+                    <h5 id="title0">11번째 제목</h5>
+                    <hr>
+                    <h5 id="title1">22번째 제목</h5>
+                    <hr>
+                    <h5 id="title2">33번째 제목</h5>
+                </div>
+                <div class="lifeinfo">
+                    <h2 style="color:#FFFFFF">생활정보 게시판</h2>
+                    <h5 id="title0">111번째 제목</h5>
+                    <hr>
+                    <h5 id="title1">222번째 제목</h5>
+                    <hr>
+                    <h5 id="title2">333번째 제목</h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
