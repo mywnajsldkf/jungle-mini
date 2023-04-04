@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--script src="../script/write.js"></script-->
+    <script>
+        function writeArticle() {
+            let title = $("#article-title").val();
+            let category = $("input[name='category']:checked").val();
+
+            if(category == "communication"){
+                category = 1;
+            }else if(category == "studyhard"){
+                category = 2;
+            }else if(category == "life"){
+                category = 3;
+            }
+            
+            let content = $("#article-content").val();
+
+            // article 빈 곳 없는지 검사하기
+
+            // POST 방식으로 article 생성하기
+            $.ajax({
+                type: "POST",
+                url: "/write",
+                data: {title_give: title, category_give: category, content_give: content},
+                success: function(response) {
+                    if(response["result"] == "success"){
+                        // console.log("글 작성 성공!")
+                        alert("글 작성을 성공했습니다.");
+                        window.location.reload();
+                    }else {
+                        alert("글 작성을 실패했습니다.")
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <header>
+        <!--검색창, 로그인 버튼 추가-->
+    </header>
+    <form action="/write" method="POST">
+        <div>
+            <input id="article-title" placeholder="제목"></input>
+        </div>
+        <div>
+            <div>
+                <input type="radio" id="communication" name="category" value="communication" checked/>
+                <label for="categoryChoice1">소통</label>
+            </div>
+            <div>
+                <input type="radio" id="studyhard" name="category" value="studyhard"/>
+                <label for="categoryChoice2">열공</label>
+            </div>
+            <div>
+                <input type="radio" id="life" name="category" value="lief"/>
+                <label for="categoryChoice3">생활</label>
+            </div>
+        </div>
+        <div>
+            <textarea id = "article-content" cols="50" rows="10" placeholder="자유롭게 글을 작성해주세요!"></textarea>
+        </div>
+        <button type="submit" onclick="writeArticle()">글쓰기</button>
+    </form>
+</body>
+</html>
