@@ -29,14 +29,10 @@
                         success: function (response) {
                             if (response['result'] == 'success') {
                                 alert(response['msg'])
-                            }
-                            if (response['result'] == 'fail') {                               
+                            } else {                                                            
                                 let empty = document.getElementById("email")
-                                
                                 empty.value=null
-                                alert(response['msg'])
-                                
-                                
+                                alert(response['msg'])   
                             }
                         }
                     }); 
@@ -50,8 +46,7 @@
                         success: function (response) {
                             if (response['result'] == 'success') {
                                 alert(response['msg'])
-                            }
-                            if (response['result'] == 'fail') {
+                            } else {
                                 let empty = document.getElementById("nickname")                                
                                 empty.value= null
                                 alert(response['msg'])

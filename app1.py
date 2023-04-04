@@ -1,16 +1,20 @@
 from pymongo import MongoClient
 from flask import Flask, render_template, request, flash, jsonify, redirect, url_for, session
 from bson.objectid import ObjectId
-from datetime import timedelta
+from datetime import datetime, timedelta
+import jwt
+
 
 client = MongoClient('localhost', 27017)
 db = client.junglelife
 user = db.user
 article = db.article
+SECRET_KEY = 'jungleboard'
 
 app = Flask(__name__)
-app.secret_key = 'secretkey'
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(seconds=10)
+
+# app.secret_key = 'secretkey'
+# app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(seconds=10)
 
 @app.route('/home')
 def home():
@@ -60,33 +64,48 @@ def user_join():
     else:
         return render_template("join.html")
     
-@app.route('/login', methods=["GET","POST"])
-def user_login():
-    if request.method == "POST":
-        receive_email = request.form.get("email")
-        receive_pass=request.form.get("password")
+# @app.route('/login', methods=["GET","POST"])
+# def user_login():
+#     if request.method == "POST":
+#         receive_email = request.form.get("email")
+#         receive_pass=request.form.get("password")
         
-        data = user.find_one({"email":receive_email})
-        if data is None:
-            flash("회원정보가 없습니다.") 
-            return redirect(url_for("user_login"))
-        else:
-            if data.get("password") == receive_pass:
-                session["email"] = receive_email
-                session["name"] = data.get("name")
-                session["id"] = str(data.get("_id"))
-                # 세션 유지시간은 default 값이 있지만, 임의로 설정하기 위해 permanent 값 줌
-                session.permanent = True
-                return redirect(url_for("home"))
-            else:
-                flash("비밀번호가 틀립니다.")
-                return redirect(url_for("user_login"))
-    else:
-        return render_template("login.html")
+#         data = user.find_one({"email":receive_email})
+#         if data is None:
+#             flash("회원정보가 없습니다.") 
+#             return redirect(url_for("user_login"))
+#         else:
+#             if data.get("password") == receive_pass:
+#                 session["email"] = receive_email
+#                 session["name"] = data.get("name")
+#                 session["id"] = str(data.get("_id"))
+#                 # 세션 유지시간은 default 값이 있지만, 임의로 설정하기 위해 permanent 값 줌
+#                 session.permanent = True
+#                 return redirect(url_for("home"))
+#             else:
+#                 flash("비밀번호가 틀립니다.")
+#                 return redirect(url_for("user_login"))
+#     else:
+#         return render_template("login.html")
     
-# @app.route('/login2', methods=["POST"])
-# def user_login2():
-
+@app.route('/login2', methods=["POST"])
+def user_login2():
+    email_receive = request.form['email_give']
+    password_receive=request.form['password_give']
+    
+    data = user.find_one({'email':email_receive})
+    if data is not None:
+        if data["password"] == password_receive:
+            payload = {
+                'email': email_receive,
+                'exp': datetime.utcnow() + timedelta(seconds=300)
+            }
+            token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+            return jsonify({'result': 'success', 'usertoken':token})
+        else:
+            return jsonify({'result': 'fail', 'msg':'비밀번호가 틀립니다.'})
+    else: 
+        return jsonify({'result':'fail', 'msg':'회원정보가 없습니다.'})
 
 @app.route('/validate/email', methods=["POST"])
 def email_validate():

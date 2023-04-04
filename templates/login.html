@@ -17,43 +17,47 @@
             background-size: cover;
         }
     </style>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    
     <script>
-        function login(){
+        function login2(){
             let email = $('#email').val()
+            let password = $('#password').val()
             $.ajax({
                         type: 'POST',
-                        url: '/validate/email',
-                        data: {email_give: email},
+                        url: '/login2',
+                        data: {email_give: email, password_give: password},
                         success: function (response) {
+                            // console.log(response)
+                            let access_token = response['usertoken']
+                            //console.log(access_token)
                             if (response['result'] == 'success') {
-                                alert(response['msg'])
-                            }
-                            if (response['result'] == 'fail') {
-                                // $('#email').val('')
-                                let empty = document.getElementById("email")
-                                
-                                empty.value=null
-                                alert(response['msg'])
-                                
-                                
-                            }
+                                $.cookie('mytoken', response['usertoken'], {expires: 1/(24*60),path: '/'});
+                                window.location.replace("/home")
+                            } else {
+                                let empty1 = document.getElementById("email")
+                                let empty2 = document.getElementById("password")
+                                empty1.value=null
+                                empty2.value=null
+                                alert(response['msg']) 
+                            }                            
                         }
                     }); 
         } 
-    </script> -->
+    </script>
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
+    <!-- {% with messages = get_flashed_messages() %}
     {% if messages %}
         <script>alert("{{messages[-1]}}")</script>
     {% endif %}
-    {%endwith%}
+    {%endwith%} -->
     
     <div class="wrap">
     <div class="mycss">
     <table>
-        <form name="form" action="/login" method="POST">
+        <!-- <form name="form" action="/login" method="POST"> -->
             <tr>
                 <td>
                     이메일:
@@ -72,11 +76,11 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <!-- <button type="submit" value="로그인" onclick="login()"></button> -->
-                    <input type="submit" value="로그인">
+                    <button type="button" onclick="login2()">로그인</button>
+                    <!-- <input type="submit" value="로그인"> -->
                 </td>    
             </tr>    
-        </form>
+        <!-- </form> -->
     </table>
     </div>
     </div>
