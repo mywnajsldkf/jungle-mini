@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <title>로그인</title>
+    <style>
+        .wrap {
+            margin: 10px auto;
+            width: 300px;
+        }
+        .mycss {
+            color: green;
+            background-color: black;
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        function login(){
+            let email = $('#email').val()
+            $.ajax({
+                        type: 'POST',
+                        url: '/validate/email',
+                        data: {email_give: email},
+                        success: function (response) {
+                            if (response['result'] == 'success') {
+                                alert(response['msg'])
+                            }
+                            if (response['result'] == 'fail') {
+                                // $('#email').val('')
+                                let empty = document.getElementById("email")
+                                
+                                empty.value=null
+                                alert(response['msg'])
+                                
+                                
+                            }
+                        }
+                    }); 
+        } 
+    </script> -->
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>alert("{{messages[-1]}}")</script>
+    {% endif %}
+    {%endwith%}
+    
+    <div class="wrap">
+    <div class="mycss">
+    <table>
+        <form name="form" action="/login" method="POST">
+            <tr>
+                <td>
+                    이메일:
+                </td>
+                <td>
+                    <input type="text" name="email" id="email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    비밀번호:
+                </td>
+                <td>
+                    <input type="password" name="password" id="password">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <!-- <button type="submit" value="로그인" onclick="login()"></button> -->
+                    <input type="submit" value="로그인">
+                </td>    
+            </tr>    
+        </form>
+    </table>
+    </div>
+    </div>
+    
+</body>
+</html>
+
+
