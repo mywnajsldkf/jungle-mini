@@ -271,9 +271,6 @@ pyrightconfig.json
 pyvenv.cfg
 pip-selfcheck.json
 
-# End of https://www.toptal.com/developers/gitignore/api/python,venv,flask
-<<<<<<< HEAD
-=======
 
 get-pip.py
->>>>>>> 6f3a8f10f3067750ec5c5c04d756876ae8e1d805
+config.py
