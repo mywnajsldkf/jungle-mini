@@ -7,8 +7,8 @@ app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
 client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
 db = client.junglemini  # 'dbjungle'라는 이름의 db를 만들거나 사용합니다.
-articles = db.article
-users = db.user
+articles = db.articles
+users = db.users
 
 SECRET_KEY = 'jungleboard'
 
@@ -17,14 +17,14 @@ SECRET_KEY = 'jungleboard'
 def hello():
     return render_template('index.html')
 
-# @app.route('/login')
-# def login():
-#     payload = {
-#         'email': "a44121078@gmail.com",
-#         'exp': datetime.utcnow() + timedelta(seconds=300)
-#     }
-#     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-#     return render_template('index.html', token = token)
+@app.route('/login')
+def login():
+    payload = {
+        'email': "a44121078@gmail.com",
+        'exp': datetime.utcnow() + timedelta(seconds=300)
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    return render_template('index.html', token = token)
 
 @app.route('/home')
 def home():

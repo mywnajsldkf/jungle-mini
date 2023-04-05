@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
-client = MongoClient('localhost', 27017)
-db = client.junglemini
+client = MongoClient('13.125.219.188', 27017, username="test", password="test")
+db = client.junglelife
 articles = db.article
 users = db.user
 
@@ -17,13 +17,23 @@ SECRET_KEY = 'jungleboard'
 def hello():
     return render_template('index.html')
 
+@app.route('/login')
+def login():
+    payload = {
+        'email': "a44121078@gmail.com",
+        'exp': datetime.utcnow() + timedelta(seconds=300)
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    return render_template('index.html', token = token)
+
 @app.route('/home')
 def home():
     token = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-
+        
         article_list = list(articles.find({}, {'_id': False}))
+        print(article_list)
         article_like_list = list(articles.find({}, {'_id': False}).sort("like", -1))
 
         for article in article_list:

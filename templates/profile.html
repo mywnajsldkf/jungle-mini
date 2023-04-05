@@ -5,7 +5,7 @@
     <a href="/profile/like">좋아요</a>
     <a href="/profile/write">내가 쓴 글</a>
 
-    {#{% if category == "like" %}
+    {% if category == "like" %}
     {% set count = namespace(value=0) %}
     {% for article in like_list %}
     <li>{{article["title"]}} &nbsp;&nbsp;&nbsp;&nbsp; {{article["like"]}}</li>
@@ -24,7 +24,7 @@
     {% set count = namespace(value=0) %}
     <br>
     {% endfor %}
-    {% endif %}#}
+    {% endif %}
 </div>
 {% endblock %}
 
