@@ -40,11 +40,22 @@
     </script>
 </head>
 <body>
+    <header>
+        <div class="header">
+            <a id="btn-home" onclick="location.href='/home'">MAIN</a>
+            <input id="search"/>
+            <button>검색</button>
+            <div class="dropdown">
+                <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
+                <div class="dropdown-content">
+                    <a href="/profile/like">프로필</a>
+                    <a href="/write">글쓰기</a>
+                    <a href="/logout">로그아웃</a>
+                </div>
+            </div>
+        </div>
+    </header>
     <div id="root">
-        <header>
-            <!--TODO: 검색창, 로그인 버튼 추가-->
-        </header>
-        <div><!--TODO: 구분선--></div>
     </div>
     <div class="article-form">
         <div class="article-header">

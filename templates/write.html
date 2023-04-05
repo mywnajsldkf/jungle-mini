@@ -45,6 +45,22 @@
     </script>
 </head>
 <body>
+    <header>
+        <div class="header">
+            <a id="btn-home" onclick="location.href='/home'">MAIN</a>
+            <input id="search"/>
+            <button>검색</button>
+            <div class="dropdown">
+                <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
+                <div class="dropdown-content">
+                    <a href="/profile/like">프로필</a>
+                    <a href="/write">글쓰기</a>
+                    <a href="/logout">로그아웃</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="root">
         <div></div><!--TODO: 구분선-->
         <div class="write-form">
             <form class = "write-editor" action="/write" method="POST">
@@ -70,6 +86,7 @@
                 </div>
                 <button type="submit" onclick="writeArticle()">글쓰기</button>
             </form>
+        </div>    
         </div>
     </body>
 </html>
