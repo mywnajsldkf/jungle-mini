@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JungleMini</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        function join(){
+            let email = $("#email").val();
+            let password1 = $("#password1").val();
+            let password2 = $("#password2").val();
+            let nickname = $("#nickname").val();
+            $.ajax({
+                        type: 'POST',
+                        url: '/join',
+                        data: {email_give: email, password1_give: password1, password2_give: password2, nickname_give: nickname},
+                        success: function (response) {
+                            if (response['result'] == 'success') {
+                                alert(response['msg'])
+                                window.location.replace('/login')
+                            } else {                                                            
+                                alert(response['msg']) 
+                                window.location.reload()  
+                            }
+                        }
+                    });
+        }
+        function email_validate(){
+            let email = $("#email").val();
+            $.ajax({
+                        type: 'POST',
+                        url: '/validate/email',
+                        data: {email_give: email},
+                        success: function (response) {
+                            if (response['result'] == 'success') {
+                                alert(response['msg'])
+                            } else {                                                            
+                                let empty = document.getElementById("email")
+                                empty.value=null
+                                alert(response['msg'])   
+                            }
+                        }
+                    }); 
+        }
+        function nickname_validate(){
+            let nickname = $("#nickname").val();
+            $.ajax({
+                        type: 'POST',
+                        url: '/validate/nickname',
+                        data: {nickname_give: nickname},
+                        success: function (response) {
+                            if (response['result'] == 'success') {
+                                alert(response['msg'])
+                            } else {
+                                let empty = document.getElementById("nickname")                                
+                                empty.value= null
+                                alert(response['msg'])
+                            }
+                        }
+                    }); 
+        }
+    </script>
+</head>
+<body>
+    <div class="join-form">
+        <div class="join-title">JOIN</div>
+        <div class="join-input-form">
+            <div class="validate-input">
+                <input class="title-input" type="text" name="email" id="email" placeholder="이메일"></input>
+                <a class="validate-button" type="button" onclick="email_validate()">중복 확인</a>
+            </div>
+            <div class="validate-input">
+                <input class="title-input" type="text" name="nickname" id="nickname" placeholder="닉네임"></input>
+                <a class="validate-button" type="button" onclick="nickname_validate()">중복 확인</a>
+            </div>
+            <div>
+                <input class="title-input" type="password" name="password1" id="password1" placeholder="비밀번호"></input>
+                <div>비밀번호는 8~20자 사이로 입력</div>
+            </div>
+            <div>
+                <input class="title-input" type="password" name="password2" id="password2" placeholder="비밀번호 확인"></input>
+            </div>
+            <button type="submit" onclick="join()">회원가입</button> 
+        </div>
+        <a href="http://localhost:5000/login" style="color: #61D383;">이미 회원이신가요? 로그인하기</a>
+    </div>
+</body>
+</html>

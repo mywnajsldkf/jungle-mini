@@ -9,6 +9,7 @@ body {
     min-height: 100vh;
     align-items: center;
     justify-content: center;
+    color: white;
 }
 
 button {
@@ -168,3 +169,47 @@ button:hover {
     display: flex;
     flex-direction: column;
 }
+
+.join-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 50vw;
+}
+
+.join-title {
+    color: #61D383;
+    background-color: black;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.title-input {
+    font-weight: normal;
+    font-size: 1rem;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: white;
+}
+
+.validate-input {
+    display: flex;
+    gap: 4px;
+}
+
+.validate-button {
+    border: 0px;
+    color: white;
+    font-size: 1rem;
+    width: 8vw;
+}
+
+.join-input-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+}
+

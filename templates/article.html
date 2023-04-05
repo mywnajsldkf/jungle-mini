@@ -5,22 +5,65 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;900&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script>
-        
+        $(document).ready(function() {
+            $("#like-article").click(function(){
+
+                // const pushHeartBtn = document.querySelector('.like-icon');
+                // console.log(pushHeartBtn);
+                // pushHeartBtn.style.src = "../static/icon/filled.svg";
+                const pushHeartBtn = document.getElementById("like-article");
+                pushHeartBtn.src = "../static/icon/filled.svg";  // 색 변경하기
+                document.querySelector('#article-count').textContent = Number(document.querySelector('#article-count').textContent) + 1
+                
+                // 글의 좋아요 수 1 증가한다. 사용자 이이디의 좋아요 목록에 추가한다.
+                const articleId = document.location.pathname.split("/")[2]
+
+                $.ajax({
+                    type: "POST",
+                    url: "/article/like",
+                    data: {'id_give': articleId},
+                    success: function(response) {
+                        if (response['result'] == 'success'){
+                            console.log('hello')
+                            alert('좋아요! 완료')
+                        }
+                    }
+                })
+            });
+        })
     </script>
 </head>
 <body>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <div>
-        <div>열심히 성장해 보아요!</div>
-        <div>하트</div>
+    <div id="root">
+        <header>
+            <!--TODO: 검색창, 로그인 버튼 추가-->
+        </header>
+        <div><!--TODO: 구분선--></div>
     </div>
-    <div>
-        <div>초밥왕</div>
-        <div>2023.04.03</div>
-    </div>
-    <div>
-        5개월동안 몰입하여 성과를 내고 싶습니다.
+    <div class="article-form">
+        <div class="article-header">
+            <div class="title-like">
+                <div class="article-title">{{article["title"]}}</div>
+                <div class="article-like">
+                    <img class="like-icon" id="like-article" src="../static/icon/outlined.svg"/>
+                    <div class="article-like-count" id="article-count">{{article["like"]}}</div>
+                </div>
+            </div>
+            <div class = "nickname-date">
+                <div>{{article["nickname"]}}</div>
+                <div class="article-date">{{article["date"]}}</div>
+            </div>
+        </div>
+        <div class="article-content">
+            {{article["content"]}}
+        </div>
+        <button onClick=history.back()>뒤로가기</button>
     </div>
 </body>
 </html>

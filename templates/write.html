@@ -34,11 +34,10 @@
                 data: {title_give: title, category_give: category, content_give: content},
                 success: function(response) {
                     if(response["result"] == "success"){
-                        // console.log("글 작성 성공!")
-                        alert("글 작성을 성공했습니다.");
-                        // window.location.reload();
+                        alert(response["category"]);
+                        location.href = "http://localhost:5000/board/"+response["category"]
                     }else {
-                        alert("글 작성을 실패했습니다.")
+                        alert("글 작성을 실패했습니다.");
                     }
                 }
             })
@@ -46,10 +45,6 @@
     </script>
 </head>
 <body>
-    <div id="root">
-        <header>
-            <!--TODO: 검색창, 로그인 버튼 추가-->
-        </header>
         <div></div><!--TODO: 구분선-->
         <div class="write-form">
             <form class = "write-editor" action="/write" method="POST">
@@ -76,6 +71,5 @@
                 <button type="submit" onclick="writeArticle()">글쓰기</button>
             </form>
         </div>
-    </div>
-</body>
+    </body>
 </html>

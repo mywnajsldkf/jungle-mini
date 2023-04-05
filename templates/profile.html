@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+    <h1>초밥왕</h1>
+    <a href="/profile/like">좋아요</a>
+    <a href="/profile/write">내가 쓴 글</a>
+
+    {% if category == "like" %}
+    {% set count = namespace(value=0) %}
+    {% for article in like_list %}
+    <li>{{article["title"]}} &nbsp;&nbsp;&nbsp;&nbsp; {{article["like"]}}</li>
+    <hr>
+    {% set count.value = count.value + 1 %}
+    {% if count.value == 3 %}
+    {% set count = namespace(value=0) %}
+    <br>
+    {% endfor %}
+    {% elif category == "write" %}
+    {% for article in write_list %}
+    <li>{{article["title"]}} &nbsp;&nbsp;&nbsp;&nbsp; {{article["like"]}}</li>
+    <hr>
+    {% set count.value = count.value + 1 %}
+    {% if count.value == 3 %}
+    {% set count = namespace(value=0) %}
+    <br>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

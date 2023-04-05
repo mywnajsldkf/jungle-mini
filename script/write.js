@@ -12,6 +12,8 @@ function writeArticle() {
     
     let content = $("#article-content").val();
 
+    // article 빈 곳 없는지 검사하기
+
     // POST 방식으로 article 생성하기
     $.ajax({
         type: "POST",
@@ -19,7 +21,7 @@ function writeArticle() {
         data: {title_give: title, category_give: category, content_give: content},
         success: function(response) {
             if(response["result"] == "success"){
-                console.log("글 작성 성공!")
+                // console.log("글 작성 성공!")
                 alert("글 작성을 성공했습니다.");
                 window.location.reload();
             }else {
