@@ -1,12 +1,12 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import jwt
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 
-client = MongoClient('localhost', 27017)
-db = client.junglemini
+client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아갑니다.
+db = client.junglemini  # 'dbjungle'라는 이름의 db를 만들거나 사용합니다.
 articles = db.article
 users = db.user
 
@@ -16,6 +16,15 @@ SECRET_KEY = 'jungleboard'
 @app.route('/')
 def hello():
     return render_template('index.html')
+
+# @app.route('/login')
+# def login():
+#     payload = {
+#         'email': "a44121078@gmail.com",
+#         'exp': datetime.utcnow() + timedelta(seconds=300)
+#     }
+#     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+#     return render_template('index.html', token = token)
 
 @app.route('/home')
 def home():
@@ -46,9 +55,9 @@ def home():
 
         return render_template('home.html', article_new_list = article_new_list, article_like_list = article_like_list, ranking_names = ranking_names)
     except jwt.ExpiredSignatureError:
-        return render_template('index.html')
+        return "ExpiredSignatureError"
     except jwt.exceptions.DecodeError:
-        return render_template('index.html')
+        return "exceptions.DecodeError"
 
 @app.route('/profile/<category>')
 def profile(category):
@@ -56,7 +65,6 @@ def profile(category):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
         user_name = users.find_one({'email': payload['email']}, {'_id': False})["nickname"]
-
         # 사용자가 쓴 article list
         write_list = list(articles.find({'nickname': user_name}))
 
@@ -64,6 +72,7 @@ def profile(category):
         for user in cursor2:
             if user['nickname'] == user_name: # 현재 사용자 id와 맞는 글들의 id 리스트 가져옴
                 like_id_list = user['likes'] #list
+                # id_list를 가지고 실제 like_list를 가져와야 함
                 break
 
         like_list = []
@@ -72,12 +81,42 @@ def profile(category):
             like = articles.find_one({'_id': id}, {'_id': False})
             if like is not None:
                 like_list.append(like)
+
+        # # 현재 사용자 id를 가져옴
+        # print(payload['_id']) 
+        # now_user_id = payload['_id']
+
+        # cursor1 = list(users.find({}, {'writes': 1}))
+        # for user in cursor1:
+        #     if user['_id'] == now_user_id: # 현재 사용자 id와 맞는 글들의 id 리스트 가져옴
+        #         write_id_list = user['writes'] #list
+        #         # id_list를 가지고 실제 write_list를 가져와야 함
+        #         break
+
+        # write_list = []
+
+        # for id in write_id_list:
+        #     write = articles.find_one({'_id': id}, {'_id': False})
+        #     if write is not None:
+        #         write_list.append(write)
+
         
-        return render_template('profile.html', payload=payload, category=category, write_list=write_list, like_list=like_list)
+        
+        return render_template('profile.html', payload=payload, category=category)#, write_list=write_list, like_list=like_list)
     except jwt.ExpiredSignatureError:
         return render_template('index.html')
     except jwt.exceptions.DecodeError:
         return render_template('index.html')
+
+
+    cursor = list(users.find({}, {'writes': 1}))
+    for user in cursor:
+        print(user['writes'])
+
+    #user_like_list = list(users.find({'좋아요글'}, {'_id': False}).sort("like", 1))
+    #user_write_list = list(users.find({'내가쓴글'}, {'_id': False}).sort("like", -1))
+    return render_template('profile.html', category = category)#, user_like_list = user_like_list, user_write_list = user_write_list)
+
 
 if __name__ == '__main__':  
    app.run('0.0.0.0',port=5000,debug=True)

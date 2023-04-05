@@ -2,9 +2,6 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -55,10 +52,28 @@
             padding-left: 4%;
             padding-right: 4%;
         }
+
+        .area {
+            display: inline-block;
+            width: 494px;
+            height: 350px;
+            border: 1px solid white;
+            background-color: transparent;
+        }
+
+        .area .honor {
+            width: 300px;
+            height: 250px;
+            margin: 50px auto;
+            background-color: rgb(69, 146, 50);
+            border-radius: 150px;
+            text-align: center;
+            font-size: 50px;
+        }
     </style>
     <script>
         $(document).ready(function () {
-            login_mypage_btn(false)
+            login_mypage_btn(true)
         });
         function login_mypage_btn(islogin) {
             if(islogin==true) {
@@ -90,13 +105,23 @@
 {% block content %}
 <div class="main-body">
     <div class="body1">
-        <div class="communication">
-            <h2 style="color:#FFFFFF">명예의 전당</h2>
-            <h5 id="title0">00000000000</h5>
-            <hr>
-            <h5 id="title1">00000000000</h5>
-            <hr>
-            <h5 id="title2">00000000000</h5>
+        <div class="area" style="border: 0px;">
+            <div class="honor"> </div>
+        </div>
+        <div class="area">
+
+        </div>
+        <div class="area">
+
+        </div>
+        <div class="area">
+
+        </div>
+        <div class="area">
+
+        </div>
+        <div class="area">
+
         </div>
         <div class="favorite" style="border: 2px solid #FFFFFF;">
             <p>
@@ -115,7 +140,7 @@
             {% set count = namespace(value=0) %}
             {% for article in article_new_list %}
             {% if article["articleclass"] == "communication" %}
-            <li>{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+            <li id="communication_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
             <hr>
             {% set count.value = count.value + 1 %}
@@ -130,7 +155,7 @@
             {% set count = namespace(value=0) %}
             {% for article in article_new_list %}
             {% if article["articleclass"] == "study" %}
-            <li>{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+            <li id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
             <hr>
             {% set count.value = count.value + 1 %}
@@ -145,7 +170,7 @@
             {% set count = namespace(value=0) %}
             {% for article in article_new_list %}
             {% if article["articleclass"] == "lifeinfo" %}
-            <li>{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+            <li id="lifeinfo_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
             <hr>
             {% set count.value = count.value + 1 %}

@@ -1,59 +1,75 @@
 <style>
-    .wrap {
-        background-color: #000000;
-        width: 1920px;
-        height: 1080px;
+    html {
+        background-color: black;
+        font-family: 'Noto Sans KR', sans-serif;
+        color: white;
     }
 
-    .top {
-        width: 1920px;
-        height: 150px;
+    body {
+        display: flex;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        background-color: black;
+        border: 3px solid white;
+    }
+
+    .wrap {
+        width: 70vw;
     }
 
     #btn-home {
-        position: static;
+        flex: 1;
         display: inline-block;
-        width: 150px;
-        height: 70px;
-        background-color: transparent;
-        border: 0px;
         color: #48b151;
-        font-size: 60px;
-        margin-left: 40px;
+        font-size: 1.3em;
+        text-align: center;
+        line-height: 2.5;
     }
 
     #search {
+        flex: 4;
         display: inline-block;
-        width: 70%;
-        height: 110px;
         border: 2px solid #FFFFFF;
         background-color: transparent;
         color: #48b151;
-        font-size: 35px;
+        font-size: 1rem;
         border-radius: 50px;
-        margin: 20px 50px;
-        padding: 10px 40px 10px
+        padding: 10px 40px 10px;
+    }
+
+    .top {
+        display: flex;
     }
 
     #dropbtn {
+        flex: 1;
         display: inline-block;
-        width: 150px;
-        height: 70px;
         background-color: transparent;
-        border: 0px;
         color: #48b151;
-        font-size: 60px;
-        margin-right: 50px;
+        font-size: 1.3rem;
+        text-align: center;
+        line-height: 2.5;
     }
 
     .dropdown {
+        flex: 1;
         position: relative;
-        display: inline-block;
+        display: flex;
     }
 
     .dropdown-content {
-        display: none;
-        width: 120%;
+        /* display: none; */
+        flex: 1;
         position: absolute;
         background-color: transparent;
         z-index: 1;
@@ -62,7 +78,6 @@
     .dropdown-content a {
         color: #9feba5;
         display: block;
-        font-size: 40px;
         text-align: center;
         text-decoration-line: none;
     }
@@ -71,27 +86,18 @@
         background-color: #48b1516b;
     }
 
-    .dropdown:hover .dropdown-content {
+    #dropbtn:hover .dropdown-content {
         display: block;
-    }
-
-    #top-area-endline {
-        margin: 0;
     }
 </style>
 
-<div class="wrap">
-    <div class="top">
-        <button id="btn-home" onclick="location.href='/home'">Main</button>
-        <input id="search"/>
-        <div class="dropdown">
-            <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
-            <div class="dropdown-content">
-                <a href="/profile/like">프로필</a>
-                <a href="/write">글쓰기</a>
-                <a href="/logout">로그아웃</a>
-            </div>
+<body>
+    <div class="wrap">
+        <div class="top">
+            <label id="btn-home" onclick="location.href='/home'">Main</label>
+            <input id="search" />
+            <label id="dropbtn" onclick="location.href='/home'">MyPage</label>
         </div>
         <hr id="top-area-endline">
     </div>
-</div>
+</body>
