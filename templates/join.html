@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <style>
+    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
+    <!-- <style>
         .wrap {
             margin: 10px auto;
             width: 400px;
@@ -16,10 +17,30 @@
             background-color: black;
             background-position: center;
             background-size: cover;
-        }
+        } -->
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
+        function join(){
+            let email = $("#email").val();
+            let password1 = $("#password1").val();
+            let password2 = $("#password2").val();
+            let nickname = $("#nickname").val();
+            $.ajax({
+                        type: 'POST',
+                        url: '/join',
+                        data: {email_give: email, password1_give: password1, password2_give: password2, nickname_give: nickname},
+                        success: function (response) {
+                            if (response['result'] == 'success') {
+                                alert(response['msg'])
+                                window.location.replace('/login')
+                            } else {                                                            
+                                alert(response['msg']) 
+                                window.location.reload()  
+                            }
+                        }
+                    });
+        }
         function email_validate(){
             let email = $("#email").val();
             $.ajax({
@@ -57,21 +78,44 @@
     </script>
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
+    <!-- {% with messages = get_flashed_messages() %}
     {% if messages %}
         <script>alert("{{messages[-1]}}")</script>
     {% endif %}
-    {%endwith%}
-    <div class="wrap">
-    <div class="mycss">
-    <table>
-        <form name="form" action="/join" method="POST">
-            <tr>
+    {%endwith%} -->
+
+            <div>
+                <label for = "JOIN"><h1 style="color:white; text-align:center" >JOIN</h1>
+            <p>
+                <label for = "email"><h3 style="color:white">이메일:</h3></label> <input class="title-input" type="text" name="email" id="email">
+                <button type="button" onclick="email_validate()">중복확인</button>
+            </p>
+            <p>
+                <label for = "nickname"><h3 style="color:white">닉네임:</h3></label> <input class="title-input" type="text" name="nickname" id="nickname">
+                <button type="button" onclick="nickname_validate()">중복확인</button>
+            </p>
+            <p>
+                <label for = "password1"><h3 style="color:white">비밀번호:</h3></label> <input class="title-input" type="password" name="password1" id="password1">
+            </p>
+            <p>
+                <label for = "password2"><h3 style="color:white">비밀번호 확인:</h3></label> <input class="title-input" type="password" name="password2" id="password2">
+            </p>
+            <p>
+                <h3 style="color:white">비밀번호는 8~20자 사이로 입력</h3>
+            </p>
+            <!-- <input class= "button" type="submit" value="회원 가입"> -->
+                <button type="submit" onclick="join()">회원가입</button> 
+            </div>
+
+
+
+
+            <!-- <tr>
                 <td>
                     이메일:
                 </td>
                 <td>
-                    <input type="text" name="email" id="email">
+                    <input class="title-input" type="text" name="email" id="email">
                 </td>
                 <td>
                     <button type="button" onclick="email_validate()">중복확인</button>
@@ -82,7 +126,7 @@
                     닉네임:
                 </td>
                 <td>
-                    <input type="text" name="nickname" id="nickname">
+                    <input class="title-input" type="text" name="nickname" id="nickname">
                 </td>
                 <td>
                     <button type="button"onclick="nickname_validate()">중복확인</button>
@@ -114,10 +158,8 @@
                     <input type="submit" value="회원 가입">
                 </td>    
             </tr>    
-        </form>
-    </table>   
-    </div>
-    </div> 
+        </form> -->
+ 
     
 </body>
 </html>
