@@ -1,0 +1,112 @@
+@app.route('/profile/<category>')
+def profile(category):
+    token = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token, config.SECRET_KEY, algorithms=['HS256'])
+    
+        user_name = users.find_one({'nickname': payload['nickname']}, {'_id': False})["nickname"]
+
+        write_list = list(articles.find({'nickname': user_name}))
+
+        cursor2 = list(users.find({'nickname': user_name}))
+        for user in cursor2:
+            # print(user)
+            if user['nickname'] == user_name: # 현재 사용자 id와 맞는 글들의 id 리스트 가져옴
+                like_id_list = user['likes'] #list
+                break
+
+        like_list = []
+
+        for id in like_id_list:
+            like = articles.find_one({'_id': id}, {'_id': False})
+            if like is not None:
+                like_list.append(like)
+        
+        return render_template('profile.html', payload=payload, category=category, write_list=write_list, like_list=like_list)
+    except jwt.ExpiredSignatureError:
+        return render_template('index.html')
+    except jwt.exceptions.DecodeError:
+        return render_template('index.html')
+
+-------------------------------------------------------------
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+<link rel="stylesheet" type="text/css" href="../static/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;900&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<style>
+    .like,
+    .write {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+<script>
+    function change_like() {
+        if ($(".like").css('display') == 'none') {
+            $(".like").css('display', 'inline-block')
+            $(".write").css('display', 'none')
+        }
+    }
+    function change_write() {
+        if ($(".write").css('display') == 'none') {
+            $(".like").css('display', 'none')
+            $(".write").css('display', 'inline-block')
+        }
+    }
+</script>
+
+<div class="board">
+    <nav class="category-navigation">
+        <a class="category-title" onclick="change_like()">좋아요</a>
+        <a class="category-title" onclick="change_write()">내가 쓴 글</a>
+    </nav>
+
+    <div class="like">
+        {% for article in like_list %}
+        {% if loop.index > 4 %}
+        {% break %}
+        {% endif %}
+        <div id="show-article-{{loop.index}}" class="article">
+            <div id="article-object-id-{{loop.index}}" style="display: none;">{{article["_id"]}}</div>
+            <div>{{article["title"]}}</div>
+            <div class="additional_info">
+                <div>{{article["nickname"]}}</div>
+                <div>{{article["date"]}}</div>
+                <div class="article-like">
+                    <img class="like-icon" src="../static/icon/filled.svg" />
+                    <div class="article-like-count" id="article-count">{{article["like"]}}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="write" style="display: none;">
+        {% for article in write_list %}
+        {% if loop.index > 4 %}
+        {% break %}
+        {% endif %}
+        <div id="show-article-{{loop.index}}" class="article">
+            <div id="article-object-id-{{loop.index}}" style="display: none;">{{article["_id"]}}</div>
+            <div>{{article["title"]}}</div>
+            <div class="additional_info">
+                <div>{{article["nickname"]}}</div>
+                <div>{{article["date"]}}</div>
+                <div class="article-like">
+                    <img class="like-icon" src="../static/icon/filled.svg" />
+                    <div class="article-like-count" id="article-count">{{article["like"]}}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
