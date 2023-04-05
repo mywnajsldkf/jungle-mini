@@ -79,21 +79,19 @@
         margin: 0;
     }
 </style>
-<body>
-    <div class="wrap">
-        <div class="top">
-            <button id="btn-home" onclick="location.href='/home'">Main</button>
-            <input id="search"/>
-            <div class="dropdown">
-                <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
-                <div class="dropdown-content">
-                    <a href="/profile/like">프로필</a>
-                    <a href="/write">글쓰기</a>
-                    <a href="/logout">로그아웃</a>
-                </div>
+
+<div class="wrap">
+    <div class="top">
+        <button id="btn-home" onclick="location.href='/home'">Main</button>
+        <input id="search"/>
+        <div class="dropdown">
+            <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
+            <div class="dropdown-content">
+                <a href="/profile/like">프로필</a>
+                <a href="/write">글쓰기</a>
+                <a href="/logout">로그아웃</a>
             </div>
-            <hr id="top-area-endline">
         </div>
-        {% block content %}{% endblock %}
+        <hr id="top-area-endline">
     </div>
-</body>
+</div>

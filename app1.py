@@ -26,9 +26,6 @@ def login():
 
 @app.route('/home')
 def home():
-    # 테스트용
-    token = request.cookies.get('mytoken')
-
     article_new_list = list(db.articles.find({}, {'_id': False}).sort("like", 1))
     article_like_list = list(db.articles.find({}, {'_id': False}).sort("like", -1))
     

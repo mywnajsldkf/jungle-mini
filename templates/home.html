@@ -12,36 +12,8 @@
     <title>정글미니</title>
     <style>
         * {
-            color: green;
+            color: #48b151;
         }
-
-        .wrap {
-            width: 1920px;
-            height: 1080px;
-            background-color: black;
-        }
-
-        .main-header {
-            width: 1400px;
-            margin: auto;
-        }
-
-        #search {
-            width: 80%;
-            height: 80px;
-            border: 2px solid #FFFFFF;
-            border-radius: 50px;
-            margin: 30px auto;
-        }
-
-        #login {
-            background-color: transparent;
-            color: green;
-            border: 2px solid transparent;
-            width: 15%;
-            font-size: 30px;
-        }
-
         .body1 {
             margin: auto;
             padding-top: 100px;
@@ -83,28 +55,21 @@
             padding-left: 4%;
             padding-right: 4%;
         }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            z-index: 1;
-            /*다른 요소들보다 앞에 배치*/
-        }
-
-        .dropdown-content a {
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
     </style>
     <script>
+        $(document).ready(function () {
+            login_mypage_btn(false)
+        });
+        function login_mypage_btn(islogin) {
+            if(islogin==true) {
+                // mypage 버튼 띄우기
+                $(".dropdown").css('display', 'inline-block')
+                $("#login").css('display', 'none')
+            } else {
+                $("#login").css('display', 'inline-block')
+                $(".dropdown").css('display', 'none')
+            }
+        }
         // function get_filtered_articles(article_list, articleclass, limit = 3) {
         //     let filtered_articles = []
         //     let count = 0
