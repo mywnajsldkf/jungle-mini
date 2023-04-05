@@ -275,3 +275,5 @@ pip-selfcheck.json
 
 get-pip.py
 config.py
+
+node_modules/
