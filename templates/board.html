@@ -1,7 +1,84 @@
-<div>
-    <ul class="navbar">
-        <li><a href="">소통 게시판</a></li>
-        <li><a href="">열공 게시판</a></li>
-        <li><a href="">생활 정보</a></li>
-    </ul>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;900&display=swap" rel="stylesheet">    
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <title>Document</title>
+    <script>
+        // TODO: html 파일 include
+        /*
+        $(function(){
+            var navInclude = $('[data-include1="navigationView"]');
+            jQuery.each(navInclude, function(){
+                $(this).load('navbar.html');
+            });
+        });
+        */
+        $(document).ready(function() {
+            var clickEls = $('.articles div');
+            clickEls.click(function() {
+                var indexNumber = $(this).index();
+                console.log(indexNumber);
+                $('#show-article-'+indexNumber).click(function(){
+                    // var index = $("div").index(this);
+                    // console.log(index);
+                    const articleId = document.getElementById("article-object-id-"+indexNumber).textContent;
+                    window.location.href = 'http://localhost:5000/article/'+articleId 
+                    /*
+                    console.log(articleId)
+                    $.ajax({
+                        type: "GET",
+                        url: "/article/"+articleId,
+                        data: {},
+                        success: function(response){
+                            console.log("이동")
+                        }
+                    })
+                    */
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <!--TODO: html 파일 include-->
+    <!--div data-include1="navigationView" id="navigationView"></div-->
+    <div id="root">
+        <header>
+            <!--TODO: 검색창, 로그인 버튼 추가-->
+        </header>
+        <div></div><!--TODO: 구분선-->
+        <div class="board">
+            <nav class="category-navigation">
+                <!--TODO: URL 수정-->
+                <a class="category-title" href="http://localhost:5000/board/1">소통 게시판</a>
+                <a class="category-title" href="http://localhost:5000/board/2">열공 게시판</a>
+                <a class="category-title" href="http://localhost:5000/board/3">생활 정보</a>
+            </nav>
+            <div class="articles">
+                {% for article in board %}
+                    <div id="show-article-{{loop.index}}" class="article" >
+                        <div id="article-object-id-{{loop.index}}" style="display: none;">{{article["_id"]}}</div>
+                        <div>{{article["title"]}}</div>
+                        <div class="additional_info">
+                            <div>{{article["nickname"]}}</div>
+                            <div>{{article["date"]}}</div>
+                            <div class="article-like">
+                                <img class="like-icon" src="../static/icon/filled.svg"/>
+                                <div class="article-like-count" id="article-count">{{article["like"]}}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
