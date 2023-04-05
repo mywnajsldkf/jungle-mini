@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>정글미니</title>
+    <style>
+        * {
+            color: green;
+        }
+
+        .wrap {
+            width: 1920px;
+            height: 1080px;
+            background-color: black;
+        }
+
+        .main-header {
+            width: 1400px;
+            margin: auto;
+        }
+
+        #search {
+            width: 80%;
+            height: 80px;
+            border: 2px solid #FFFFFF;
+            border-radius: 50px;
+            margin: 30px auto;
+        }
+
+        #login {
+            background-color: transparent;
+            color: green;
+            border: 2px solid transparent;
+            width: 15%;
+            font-size: 30px;
+        }
+
+        .body1 {
+            margin: auto;
+            padding-top: 100px;
+            width: 1500px;
+        }
+
+        .body2 {
+            margin: auto;
+            padding-top: 100px;
+            width: 1500px;
+        }
+
+        .favorite,
+        .king {
+            display: inline-block;
+            width: 25%;
+
+            margin-left: 5%;
+        }
+
+        .communication {
+            display: inline-block;
+            width: 25%;
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .study {
+            display: inline-block;
+            width: 25%;
+
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .lifeinfo {
+            display: inline-block;
+            width: 25%;
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            /*다른 요소들보다 앞에 배치*/
+        }
+
+        .dropdown-content a {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+    <script>
+        // function get_filtered_articles(article_list, articleclass, limit = 3) {
+        //     let filtered_articles = []
+        //     let count = 0
+        //     for (let article of article_list) {
+        //         if (article["articleclass"] == articleclass) {
+        //             filtered_articles.append(article)
+        //             count += 1
+        //             if (count == limit) {
+        //                 break
+        //             }
+        //         }
+        //     }
+        //     return filtered_articles
+        // }
+    </script>
+</head>
+{% extends "base.html" %}
+{% block content %}
+<div class="main-body">
+    <div class="body1">
+        <div class="communication">
+            <h2 style="color:#FFFFFF">명예의 전당</h2>
+            <h5 id="title0">00000000000</h5>
+            <hr>
+            <h5 id="title1">00000000000</h5>
+            <hr>
+            <h5 id="title2">00000000000</h5>
+        </div>
+        <div class="favorite" style="border: 2px solid #FFFFFF;">
+            <p>
+                {{article_like_list[0]["title"]}}
+            </p>
+        </div>
+        <div class="king" style="border: 2px solid #FFFFFF;">
+            {% for i in range(3) %}
+            <li>{{ i+1 }}등 {{ ranking_names[i] }}</li>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="body2">
+        <div class="communication">
+            <h2 style="color:#FFFFFF">소통 게시판</h2>
+            {% set count = namespace(value=0) %}
+            {% for article in article_new_list %}
+            {% if article["articleclass"] == "communication" %}
+            <li>{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
+            <hr>
+            {% set count.value = count.value + 1 %}
+            {% if count.value == 3 %}
+            {% break %}
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="study">
+            <h2 style="color:#FFFFFF">소통 게시판</h2>
+            {% set count = namespace(value=0) %}
+            {% for article in article_new_list %}
+            {% if article["articleclass"] == "study" %}
+            <li>{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
+            <hr>
+            {% set count.value = count.value + 1 %}
+            {% if count.value == 3 %}
+            {% break %}
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="lifeinfo">
+            <h2 style="color:#FFFFFF">소통 게시판</h2>
+            {% set count = namespace(value=0) %}
+            {% for article in article_new_list %}
+            {% if article["articleclass"] == "lifeinfo" %}
+            <li>{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
+            <hr>
+            {% set count.value = count.value + 1 %}
+            {% if count.value == 3 %}
+            {% break %}
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <title>정글미니</title>
+    <style>
+        * {
+            color: green;
+        }
+
+        .wrap {
+            width: 1920px;
+            height: 1080px;
+            background-color: black;
+        }
+
+        .main-header {
+            width: 1400px;
+            margin: auto;
+        }
+
+        #search {
+            width: 80%;
+            height: 80px;
+            border: 2px solid #FFFFFF;
+            border-radius: 50px;
+            margin: 30px auto;
+        }
+
+        #login {
+            background-color: transparent;
+            color: green;
+            border: 2px solid transparent;
+            width: 15%;
+            font-size: 30px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            z-index: 1;
+            /*다른 요소들보다 앞에 배치*/
+        }
+
+        .dropdown-content a {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+    <script>
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="main-header">
+            <a href="/home">메인</a>
+            <input id="search" placeholder="검색창" />
+            <button id="login" style="width: 100px;">LOGIN</button>
+            <div class="dropdown">
+                <span class="dropbtn" style="font-size: 30px; padding-left: 20px;">MYPAGE</span>
+                <div class="dropdown-content">
+                    <a href="/profile/like">프로필</a>
+                    <a href="/write">글쓰기</a>
+                    <a href="/logout">로그아웃</a>
+                </div>
+            </div>
+        </div>
+        <hr style="margin: 0px auto 20px;">
+        {% block content %}{% endblock %}
+    </div>
+</body>
