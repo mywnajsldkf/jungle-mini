@@ -5,7 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!--script src="../script/write.js"></script-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;900&display=swap" rel="stylesheet">
+    <!--TODO 스크립트 분리하기-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script>
         function writeArticle() {
             let title = $("#article-title").val();
@@ -21,8 +27,6 @@
             
             let content = $("#article-content").val();
 
-            // article 빈 곳 없는지 검사하기
-
             // POST 방식으로 article 생성하기
             $.ajax({
                 type: "POST",
@@ -32,7 +36,7 @@
                     if(response["result"] == "success"){
                         // console.log("글 작성 성공!")
                         alert("글 작성을 성공했습니다.");
-                        window.location.reload();
+                        // window.location.reload();
                     }else {
                         alert("글 작성을 실패했습니다.")
                     }
@@ -42,32 +46,36 @@
     </script>
 </head>
 <body>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <header>
-        <!--검색창, 로그인 버튼 추가-->
-    </header>
-    <form action="/write" method="POST">
-        <div>
-            <input id="article-title" placeholder="제목"></input>
+    <div id="root">
+        <header>
+            <!--TODO: 검색창, 로그인 버튼 추가-->
+        </header>
+        <div></div><!--TODO: 구분선-->
+        <div class="write-form">
+            <form class = "write-editor" action="/write" method="POST">
+                <div>
+                    <input class="title-input" id="article-title" placeholder="제목" required></input>
+                </div>
+                <div class="category-selector">
+                    <div>
+                        <input type="radio" id="communication" name="category" value="communication" checked/>
+                        <label for="categoryChoice1">소통</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="studyhard" name="category" value="studyhard"/>
+                        <label for="categoryChoice2">열공</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="life" name="category" value="lief"/>
+                        <label for="categoryChoice3">생활</label>
+                    </div>
+                </div>
+                <div>
+                    <textarea class="content-input" id = "article-content" cols="50" rows="10" placeholder="자유롭게 글을 작성해주세요!" required></textarea>
+                </div>
+                <button type="submit" onclick="writeArticle()">글쓰기</button>
+            </form>
         </div>
-        <div>
-            <div>
-                <input type="radio" id="communication" name="category" value="communication" checked/>
-                <label for="categoryChoice1">소통</label>
-            </div>
-            <div>
-                <input type="radio" id="studyhard" name="category" value="studyhard"/>
-                <label for="categoryChoice2">열공</label>
-            </div>
-            <div>
-                <input type="radio" id="life" name="category" value="lief"/>
-                <label for="categoryChoice3">생활</label>
-            </div>
-        </div>
-        <div>
-            <textarea id = "article-content" cols="50" rows="10" placeholder="자유롭게 글을 작성해주세요!"></textarea>
-        </div>
-        <button type="submit" onclick="writeArticle()">글쓰기</button>
-    </form>
+    </div>
 </body>
 </html>
