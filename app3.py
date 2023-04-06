@@ -43,7 +43,7 @@ def home():
             article_date_str = article['date']
             article_date = datetime.strptime(article_date_str, '%Y-%m-%d %H:%M:%S')
             article['date'] = article_date
-        article_new_list = sorted(article_list, key=lambda x: x['date'])
+        article_new_list = sorted(article_list, key=lambda x: x['date'], reverse=True)
 
         ranking_names = []
         
