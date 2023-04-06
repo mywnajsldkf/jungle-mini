@@ -12,6 +12,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script>
         $(document).ready(function() {
+            login_mypage_btn()
+
             $("#like-article").click(function(){
 
                 // const pushHeartBtn = document.querySelector('.like-icon');
@@ -37,6 +39,27 @@
                 })
             });
         })
+
+        function login_mypage_btn() {
+            $.ajax({
+                type: "GET",
+                url: "/islogin",
+                data: {},
+                success: function(response) {
+                    let islogin = response['islogin']
+                    if (islogin == true) {
+                        $(".dropdown").css('display', 'inline-block')
+                        $("#login").css('display', 'none')
+                        console.log("MyPage ON")
+                    } else {
+                        $("#login").css('display', 'inline-block')
+                        $(".dropdown").css('display', 'none')
+                        console.log("Login ON")
+                    }
+                }
+            })
+        }
+
     </script>
 </head>
 <body>
@@ -44,9 +67,10 @@
         <div class="header">
             <a id="btn-home" onclick="location.href='/home'">MAIN</a>
             <input id="search"/>
-            <button>검색</button>
+            <button class="search-btn">검색</button>
+            <button id="login" onclick="location.href='/login'" style="border: 0px; color: #48b151;">LOGIN</button>
             <div class="dropdown">
-                <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
+                <button id="dropbtn" onclick="location.href='/home'">MYPAGE</button>
                 <div class="dropdown-content">
                     <a href="/profile/like">프로필</a>
                     <a href="/write">글쓰기</a>

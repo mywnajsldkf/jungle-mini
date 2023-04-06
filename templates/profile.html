@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;900&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
     <style>
@@ -21,10 +22,48 @@
         }
     </style>
     <script>
+        $(document).ready(function() {
+            login_mypage_btn()
+        });
+
         function go_articeId(button) {
             let indexNumber = $(button).index() + 1;
             let articleId = document.getElementById("article-object-id-" + indexNumber).textContent;
             window.location.href = '/article/' + articleId
+        };
+
+        function login_mypage_btn() {
+            $.ajax({
+                type: "GET",
+                url: "/islogin",
+                data: {},
+                success: function(response) {
+                    let islogin = response['islogin']
+                    if (islogin == true) {
+                        $(".dropdown").css('display', 'inline-block')
+                        $("#login").css('display', 'none')
+                        console.log("MyPage ON")
+                    } else {
+                        $("#login").css('display', 'inline-block')
+                        $(".dropdown").css('display', 'none')
+                        console.log("Login ON")
+                    }
+                }
+            })
+        };
+
+        function change_like() {
+            if ($(".like").css('display') == 'none') {
+                $(".like").css('display', 'inline-block')
+                $(".write").css('display', 'none')
+            }
+        }
+
+        function change_write() {
+            if ($(".write").css('display') == 'none') {
+                $(".like").css('display', 'none')
+                $(".write").css('display', 'inline-block')
+            }
         }
     </script>
 </head>
@@ -33,8 +72,9 @@
     <header>
         <div class="header">
             <a id="btn-home" onclick="location.href='/home'">MAIN</a>
-            <input id="search" />
-            <button>검색</button>
+            <input id="search"/>
+            <button class="search-btn">검색</button>
+            <button id="login" onclick="location.href='/login'" style="border: 0px; color: #48b151;">LOGIN</button>
             <div class="dropdown">
                 <button id="dropbtn" onclick="location.href='/home'">MYPAGE</button>
                 <div class="dropdown-content">

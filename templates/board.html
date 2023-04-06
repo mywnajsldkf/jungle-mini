@@ -12,27 +12,59 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <title>Document</title>
     <script>
-        // TODO: html 파일 include
-        /*
-        $(function(){
-            var navInclude = $('[data-include1="navigationView"]');
-            jQuery.each(navInclude, function(){
-                $(this).load('navbar.html');
+        $(document).ready(function() {
+            login_mypage_btn()
+
+            $("#like-article").click(function(){
+
+                // const pushHeartBtn = document.querySelector('.like-icon');
+                // console.log(pushHeartBtn);
+                // pushHeartBtn.style.src = "../static/icon/filled.svg";
+                const pushHeartBtn = document.getElementById("like-article");
+                pushHeartBtn.src = "../static/icon/filled.svg";  // 색 변경하기
+                document.querySelector('#article-count').textContent = Number(document.querySelector('#article-count').textContent) + 1
+                
+                // 글의 좋아요 수 1 증가한다. 사용자 이이디의 좋아요 목록에 추가한다.
+                const articleId = document.location.pathname.split("/")[2]
+
+                $.ajax({
+                    type: "POST",
+                    url: "/article/like",
+                    data: {'id_give': articleId},
+                    success: function(response) {
+                        if (response['result'] == 'success'){
+                            console.log('hello')
+                            alert('좋아요! 완료')
+                        }
+                    }
+                })
             });
-        });
-        */
-        // $(document).ready(function() {
-        //     var clickEls = $('.articles div');
-        //     clickEls.click(function() {
-        //         let indexNumber = $(this).index();
-        //         let articleId = document.getElementById("article-object-id-"+indexNumber).textContent;
-        //         window.location.href = '/article/'+articleId 
-        //     })
-        // })
+        })
+
         function go_articeId(button) {
             let indexNumber = $(button).index() + 1;
             let articleId = document.getElementById("article-object-id-"+indexNumber).textContent;
             window.location.href = '/article/'+articleId 
+        }
+
+        function login_mypage_btn() {
+            $.ajax({
+                type: "GET",
+                url: "/islogin",
+                data: {},
+                success: function(response) {
+                    let islogin = response['islogin']
+                    if (islogin == true) {
+                        $(".dropdown").css('display', 'inline-block')
+                        $("#login").css('display', 'none')
+                        console.log("MyPage ON")
+                    } else {
+                        $("#login").css('display', 'inline-block')
+                        $(".dropdown").css('display', 'none')
+                        console.log("Login ON")
+                    }
+                }
+            })
         }
     </script>
 </head>
@@ -41,7 +73,8 @@
         <div class="header">
             <a id="btn-home" onclick="location.href='/home'">MAIN</a>
             <input id="search"/>
-            <button>검색</button>
+            <button class="search-btn">검색</button>
+            <button id="login" onclick="location.href='/login'" style="border: 0px; color: #48b151;">LOGIN</button>
             <div class="dropdown">
                 <button id="dropbtn" onclick="location.href='/home'">MYPAGE</button>
                 <div class="dropdown-content">

@@ -12,6 +12,7 @@
         $(document).ready(function () {
             login_mypage_btn()
         });
+
         function login_mypage_btn() {
             $.ajax({
                 type: "GET",
@@ -30,13 +31,15 @@
                     }
                 }
             })
-        }
+        };
+
         function go_articeId1(button) {
             let indexNumber = $(button).index();
             let articleId = document.getElementById("article1-object-id-"+indexNumber).textContent;
             console.log(articleId)
             window.location.href = '/article/'+articleId 
-        }
+        };
+        
         function go_articeId2(button) {
             let indexNumber = $(button).index();
             let articleId = document.getElementById("article2-object-id-"+indexNumber).textContent;
@@ -56,7 +59,7 @@
         <div class="header">
             <a id="btn-home" onclick="location.href='/home'">MAIN</a>
             <input id="search"/>
-            <button>검색</button>
+            <button class="search-btn">검색</button>
             <button id="login" onclick="location.href='/login'" style="border: 0px; color: #48b151;">LOGIN</button>
             <div class="dropdown">
                 <button id="dropbtn" onclick="location.href='/home'">MYPAGE</button>
@@ -70,7 +73,9 @@
     </header>
     <div class="root">
         <div class="line">
-            <div class="box">명예의 전당</div>
+            <div class="box" style="border: 0px;">
+                <img width="225" src="../static/icon/firework.png"/>
+            </div>
             <div class="box">
                 <div class="box-title">❤️‍🔥 인기글</div>
                 <div class="box-content">
@@ -99,7 +104,6 @@
                     {% for article in article_new_list %}
                     {% if article["category"] == '1' %}
                     <li onclick="go_articeId1(this)" id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
-                        {{ article["like"] }}
                         <div id="article1-object-id-{{count.value}}" style="display: none;">{{article["_id"]}}</div>
                         <hr>
                     </li>
@@ -119,7 +123,6 @@
                     {% for article in article_new_list %}
                     {% if article["category"] == '2' %}
                     <li onclick="go_articeId2(this)" id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
-                        {{ article["like"] }}
                         <div id="article2-object-id-{{count.value}}" style="display: none;">{{article["_id"]}}</div>
                         <hr>
                     </li>
@@ -139,7 +142,6 @@
                     {% for article in article_new_list %}
                     {% if article["category"] == '3' %}
                     <li onclick="go_articeId3(this)" id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
-                        {{ article["like"] }}
                         <div id="article3-object-id-{{count.value}}" style="display: none;">{{article["_id"]}}</div>
                         <hr>
                     </li>
