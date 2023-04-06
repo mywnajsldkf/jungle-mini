@@ -32,12 +32,28 @@ def hello():
     # print(articles.find_one())
     return redirect(url_for('home'))
 
+@app.route('/islogin', methods=["GET"])
+def islogin():
+    token = request.cookies.get('mytoken')
+    result = False
+    try:
+        payload = jwt.decode(token, config.SECRET_KEY, algorithms=['HS256'])
+        result = True
+        return jsonify({'result': 'success', 'islogin': result})
+    except jwt.ExpiredSignatureError:
+        result = False
+        return jsonify({'result': 'success', 'islogin': result})
+    except jwt.exceptions.DecodeError:
+        result = False
+        return jsonify({'result': 'success', 'islogin': result})
+    
+
 @app.route('/home')
 def home():
     token = request.cookies.get('mytoken')
     try:
-        article_list = list(articles.find({}, {'_id': False}))
-        article_like_list = list(articles.find({}, {'_id': False}).sort("like", -1))
+        article_list = list(articles.find({}))
+        article_like_list = list(articles.find({}).sort("like", -1))
 
         for article in article_list:
             article_date_str = article['date']
@@ -169,8 +185,16 @@ def showArticle(articleId):
 
 @app.route("/board/<categoryId>")
 def showBoard(categoryId):
-    result = list(articles.find({'category':categoryId}).limit(3))
-    # print(result)
+    # result = list(articles.find({'category':categoryId}).limit(3))
+
+    article_category_list = list(articles.find({'category':categoryId}))
+    for article in article_category_list:
+            article_date_str = article['date']
+            article_date = datetime.strptime(article_date_str, '%Y-%m-%d %H:%M:%S')
+            article['date'] = article_date
+    result1 = sorted(article_category_list, key=lambda x: x['date'], reverse=True)
+    result = [result1[0], result1[1], result1[2]]
+
     return render_template('board.html', board = result)
 
 @app.route("/write", methods=['POST'])
@@ -251,7 +275,7 @@ def profile(category):
     try:
         payload = jwt.decode(token, config.SECRET_KEY, algorithms=['HS256'])
     
-        user_name = users.find_one({'nickname': payload['nickname']}, {'_id': False})["nickname"]
+        user_name = users.find_one({'nickname': payload['nickname']})["nickname"]
 
         write_list = list(articles.find({'nickname': user_name}))
 
@@ -265,7 +289,7 @@ def profile(category):
         like_list = []
 
         for id in like_id_list:
-            like = articles.find_one({'_id': id}, {'_id': False})
+            like = articles.find_one({'_id': id})
             if like is not None:
                 like_list.append(like)
         print(like_list)

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
     <link rel="stylesheet" type="text/css" href="../static/style.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,31 +21,19 @@
             });
         });
         */
-        $(document).ready(function() {
-            var clickEls = $('.articles div');
-            clickEls.click(function() {
-                var indexNumber = $(this).index();
-                console.log(indexNumber);
-                $('#show-article-'+indexNumber).click(function(){
-                    // var index = $("div").index(this);
-                    // console.log(index);
-                    const articleId = document.getElementById("article-object-id-"+indexNumber).textContent;
-                    console.log(articleId)
-                    window.location.href = 'http://localhost:5000/article/'+articleId 
-                    /*
-                    console.log(articleId)
-                    $.ajax({
-                        type: "GET",
-                        url: "/article/"+articleId,
-                        data: {},
-                        success: function(response){
-                            console.log("이동")
-                        }
-                    })
-                    */
-                })
-            })
-        })
+        // $(document).ready(function() {
+        //     var clickEls = $('.articles div');
+        //     clickEls.click(function() {
+        //         let indexNumber = $(this).index();
+        //         let articleId = document.getElementById("article-object-id-"+indexNumber).textContent;
+        //         window.location.href = '/article/'+articleId 
+        //     })
+        // })
+        function go_articeId(button) {
+            let indexNumber = $(button).index() + 1;
+            let articleId = document.getElementById("article-object-id-"+indexNumber).textContent;
+            window.location.href = '/article/'+articleId 
+        }
     </script>
 </head>
 <body>
@@ -55,7 +43,7 @@
             <input id="search"/>
             <button>검색</button>
             <div class="dropdown">
-                <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
+                <button id="dropbtn" onclick="location.href='/home'">MYPAGE</button>
                 <div class="dropdown-content">
                     <a href="/profile/like">프로필</a>
                     <a href="/write">글쓰기</a>
@@ -67,10 +55,6 @@
     <!--TODO: html 파일 include-->
     <!--div data-include1="navigationView" id="navigationView"></div-->
     <div id="root">
-        <header>
-            <!--TODO: 검색창, 로그인 버튼 추가-->
-        </header>
-        <div></div><!--TODO: 구분선-->
         <div class="board">
             <nav class="category-navigation">
                 <!--TODO: URL 수정-->
@@ -80,7 +64,7 @@
             </nav>
             <div class="articles">
                 {% for article in board %}
-                    <div id="show-article-{{loop.index}}" class="article" >
+                    <div onclick="go_articeId(this)" id="show-article-{{loop.index}}" class="article" >
                         <div id="article-object-id-{{loop.index}}" style="display: none;">{{article["_id"]}}</div>
                         <div>{{article["title"]}}</div>
                         <div class="additional_info">

@@ -24,6 +24,10 @@ button {
     border: 3px solid white;
 }
 
+#btn-home:hover {
+    color:#12ec21
+}
+
 button:hover {
     background-color: white;
     color: black;
@@ -139,6 +143,7 @@ button:hover {
     background-color: black;
     font-weight: bold;
     font-size: 1.75rem;
+    text-decoration-line: none;
 }
 
 .category-title:hover {
@@ -337,7 +342,7 @@ header {
 }
 
 .dropdown-content a:hover {
-    background-color: #48b1516b;
+    color: #3afc4a;
 }
 
 .dropdown:hover .dropdown-content {

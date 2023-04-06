@@ -34,7 +34,6 @@
                 data: {title_give: title, category_give: category, content_give: content},
                 success: function(response) {
                     if(response["result"] == "success"){
-                        alert(response["category"]);
                         location.href = "http://localhost:5000/board/"+response["category"]
                     }else {
                         alert("글 작성을 실패했습니다.");
@@ -77,7 +76,7 @@
                         <label for="categoryChoice2">열공</label>
                     </div>
                     <div>
-                        <input type="radio" id="life" name="category" value="lief"/>
+                        <input type="radio" id="life" name="category" value="life"/>
                         <label for="categoryChoice3">생활</label>
                     </div>
                 </div>

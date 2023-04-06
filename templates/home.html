@@ -10,32 +10,45 @@
     <title>정글미니</title>
     <script>
         $(document).ready(function () {
-            login_mypage_btn(true)
+            login_mypage_btn()
         });
-        function login_mypage_btn(islogin) {
-            if(islogin==true) {
-                // mypage 버튼 띄우기
-                $(".dropdown").css('display', 'inline-block')
-                $("#login").css('display', 'none')
-            } else {
-                $("#login").css('display', 'inline-block')
-                $(".dropdown").css('display', 'none')
-            }
+        function login_mypage_btn() {
+            $.ajax({
+                type: "GET",
+                url: "/islogin",
+                data: {},
+                success: function(response) {
+                    let islogin = response['islogin']
+                    if (islogin == true) {
+                        $(".dropdown").css('display', 'inline-block')
+                        $("#login").css('display', 'none')
+                        console.log("MyPage ON")
+                    } else {
+                        $("#login").css('display', 'inline-block')
+                        $(".dropdown").css('display', 'none')
+                        console.log("Login ON")
+                    }
+                }
+            })
         }
-        // function get_filtered_articles(article_list, articleclass, limit = 3) {
-        //     let filtered_articles = []
-        //     let count = 0
-        //     for (let article of article_list) {
-        //         if (article["articleclass"] == articleclass) {
-        //             filtered_articles.append(article)
-        //             count += 1
-        //             if (count == limit) {
-        //                 break
-        //             }
-        //         }
-        //     }
-        //     return filtered_articles
-        // }
+        function go_articeId1(button) {
+            let indexNumber = $(button).index();
+            let articleId = document.getElementById("article1-object-id-"+indexNumber).textContent;
+            console.log(articleId)
+            window.location.href = '/article/'+articleId 
+        }
+        function go_articeId2(button) {
+            let indexNumber = $(button).index();
+            let articleId = document.getElementById("article2-object-id-"+indexNumber).textContent;
+            console.log(articleId)
+            window.location.href = '/article/'+articleId 
+        }
+        function go_articeId3(button) {
+            let indexNumber = $(button).index();
+            let articleId = document.getElementById("article3-object-id-"+indexNumber).textContent;
+            console.log(articleId)
+            window.location.href = '/article/'+articleId 
+        }
     </script>
 </head>
 <body>
@@ -44,8 +57,9 @@
             <a id="btn-home" onclick="location.href='/home'">MAIN</a>
             <input id="search"/>
             <button>검색</button>
+            <button id="login" onclick="location.href='/login'" style="border: 0px; color: #48b151;">LOGIN</button>
             <div class="dropdown">
-                <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
+                <button id="dropbtn" onclick="location.href='/home'">MYPAGE</button>
                 <div class="dropdown-content">
                     <a href="/profile/like">프로필</a>
                     <a href="/write">글쓰기</a>
@@ -84,9 +98,11 @@
                     {% set count = namespace(value=0) %}
                     {% for article in article_new_list %}
                     {% if article["category"] == '1' %}
-                    <li id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
-                        {{ article["like"] }}</li>
-                    <hr>
+                    <li onclick="go_articeId1(this)" id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                        {{ article["like"] }}
+                        <div id="article1-object-id-{{count.value}}" style="display: none;">{{article["_id"]}}</div>
+                        <hr>
+                    </li>
                     {% set count.value = count.value + 1 %}
                     {% if count.value == 3 %}
                     {% break %}
@@ -102,9 +118,11 @@
                     {% set count = namespace(value=0) %}
                     {% for article in article_new_list %}
                     {% if article["category"] == '2' %}
-                    <li id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
-                        {{ article["like"] }}</li>
-                    <hr>
+                    <li onclick="go_articeId2(this)" id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                        {{ article["like"] }}
+                        <div id="article2-object-id-{{count.value}}" style="display: none;">{{article["_id"]}}</div>
+                        <hr>
+                    </li>
                     {% set count.value = count.value + 1 %}
                     {% if count.value == 3 %}
                     {% break %}
@@ -120,9 +138,11 @@
                     {% set count = namespace(value=0) %}
                     {% for article in article_new_list %}
                     {% if article["category"] == '3' %}
-                    <li id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
-                        {{ article["like"] }}</li>
-                    <hr>
+                    <li onclick="go_articeId3(this)" id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                        {{ article["like"] }}
+                        <div id="article3-object-id-{{count.value}}" style="display: none;">{{article["_id"]}}</div>
+                        <hr>
+                    </li>
                     {% set count.value = count.value + 1 %}
                     {% if count.value == 3 %}
                     {% break %}
