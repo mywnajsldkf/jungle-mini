@@ -15,7 +15,9 @@
     <script>
         function writeArticle() {
             let title = $("#article-title").val();
+            console.log(title)
             let category = $("input[name='category']:checked").val();
+            console.log(category)
 
             if(category == "communication"){
                 category = 1;
@@ -49,7 +51,7 @@
         <div class="header">
             <a id="btn-home" onclick="location.href='/home'">MAIN</a>
             <input id="search"/>
-            <button>검색</button>
+            <button class="search-btn">검색</button>
             <div class="dropdown">
                 <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
                 <div class="dropdown-content">
@@ -61,11 +63,10 @@
         </div>
     </header>
     <div class="root">
-        <div></div><!--TODO: 구분선-->
         <div class="write-form">
-            <form class = "write-editor" action="/write" method="POST">
+            <div class = "write-editor" action="/write" method="POST">
                 <div>
-                    <input class="title-input" id="article-title" placeholder="제목" required></input>
+                    <input class="title-input" id="article-title" placeholder="제목"></input>
                 </div>
                 <div class="category-selector">
                     <div>
@@ -82,10 +83,10 @@
                     </div>
                 </div>
                 <div>
-                    <textarea class="content-input" id = "article-content" cols="50" rows="10" placeholder="자유롭게 글을 작성해주세요!" required></textarea>
+                    <textarea class="content-input" id = "article-content" cols="50" rows="10" placeholder="자유롭게 글을 작성해주세요!"></textarea>
                 </div>
                 <button type="submit" onclick="writeArticle()">글쓰기</button>
-            </form>
+            </div>
         </div>    
         </div>
     </body>

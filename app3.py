@@ -182,7 +182,7 @@ def writeArticle():
         return render_template('index.html')
     except jwt.exceptions.DecodeError:
         return render_template('index.html')
-
+    
     title_receive = request.form['title_give']
     category_receive = request.form['category_give']
     content_receive = request.form['content_give']
