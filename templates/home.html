@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
+    <title>정글미니</title>
+    <!--style>
+        * {
+            color: #48b151;
+        }
+        .body1 {
+            margin: auto;
+            padding-top: 100px;
+            width: 1500px;
+        }
+
+        .body2 {
+            margin: auto;
+            padding-top: 100px;
+            width: 1500px;
+        }
+
+        .favorite,
+        .king {
+            display: inline-block;
+            width: 25%;
+
+            margin-left: 5%;
+        }
+
+        .communication {
+            display: inline-block;
+            width: 25%;
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .study {
+            display: inline-block;
+            width: 25%;
+
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .lifeinfo {
+            display: inline-block;
+            width: 25%;
+            padding-left: 4%;
+            padding-right: 4%;
+        }
+
+        .area {
+            display: inline-block;
+            width: 494px;
+            height: 350px;
+            border: 1px solid white;
+            background-color: transparent;
+        }
+
+        .area .honor {
+            width: 300px;
+            height: 250px;
+            margin: 50px auto;
+            background-color: rgb(69, 146, 50);
+            border-radius: 150px;
+            text-align: center;
+            font-size: 50px;
+        }
+    </style-->
+    <script>
+        $(document).ready(function () {
+            login_mypage_btn(true)
+        });
+        function login_mypage_btn(islogin) {
+            if(islogin==true) {
+                // mypage 버튼 띄우기
+                $(".dropdown").css('display', 'inline-block')
+                $("#login").css('display', 'none')
+            } else {
+                $("#login").css('display', 'inline-block')
+                $(".dropdown").css('display', 'none')
+            }
+        }
+        // function get_filtered_articles(article_list, articleclass, limit = 3) {
+        //     let filtered_articles = []
+        //     let count = 0
+        //     for (let article of article_list) {
+        //         if (article["articleclass"] == articleclass) {
+        //             filtered_articles.append(article)
+        //             count += 1
+        //             if (count == limit) {
+        //                 break
+        //             }
+        //         }
+        //     }
+        //     return filtered_articles
+        // }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <a id="btn-home" onclick="location.href='/home'">MAIN</a>
+            <input id="search"/>
+            <button class="search-btn">검색</button>
+            <div class="dropdown">
+                <button id="dropbtn" onclick="location.href='/home'">MyPage</button>
+                <div class="dropdown-content">
+                    <a href="/profile/like">프로필</a>
+                    <a href="/write">글쓰기</a>
+                    <a href="/logout">로그아웃</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="root">
+        <div class="line">
+            <div class="box" style="border: 0px;">
+                <img width="225" src="../static/icon/firework.png"/>
+            </div>
+            <div class="box">
+                <div class="box-title">❤️‍🔥 인기글</div>
+                <div class="box-content">
+                    <p>
+                        {{article_like_list[0]["title"]}}
+                    </p>
+                    <p>
+                        {{article_like_list[0]["content"]}}                        
+                    </p>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-title">📝 게시판 왕</div>
+                <div class="box-content">
+                    {% for i in range(3) %}
+                    <li>{{ i+1 }}등 {{ ranking_names[i] }}</li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="line">
+            <div class="board-box">
+                <div class="box-title">🗣️ 소통 게시판</div>
+                <div class="box-board-content">
+                    {% set count = namespace(value=0) %}
+                    {% for article in article_new_list %}
+                    {% if article["category"] == '1' %}
+                    <li id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
+                    <hr>
+                    {% set count.value = count.value + 1 %}
+                    {% if count.value == 3 %}
+                    {% break %}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}                  
+                </div>
+                <button class="more-button" onclick="location.href='/board/1'">더보기</button>
+            </div>
+            <div class="board-box">
+                <div class="box-title">🔥 열공 게시판</div>
+                <div class="box-board-content">
+                    {% set count = namespace(value=0) %}
+                    {% for article in article_new_list %}
+                    {% if article["category"] == '2' %}
+                    <li id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
+                    <hr>
+                    {% set count.value = count.value + 1 %}
+                    {% if count.value == 3 %}
+                    {% break %}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}  
+                </div>
+                <button onclick="location.href='/board/2'">더보기</button>                
+            </div>
+            <div class="board-box">
+                <div class="box-title">🧼 생활 정보</div>
+                <div class="box-board-content">
+                    {% set count = namespace(value=0) %}
+                    {% for article in article_new_list %}
+                    {% if article["category"] == '3' %}
+                    <li id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
+                    <hr>
+                    {% set count.value = count.value + 1 %}
+                    {% if count.value == 3 %}
+                    {% break %}
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}                  
+                </div>
+                <button onclick="location.href='/board/3'">더보기</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<!--
+{% extends "base.html" %}
+{% block content %}
+<div class="main-body">
+    <div class="body1">
+        <div class="area" style="border: 0px;">
+            <div class="honor"> </div>
+        </div>
+        <div class="area">
+
+        </div>
+        <div class="area">
+
+        </div>
+        <div class="area">
+
+        </div>
+        <div class="area">
+
+        </div>
+        <div class="area">
+
+        </div>
+        <div class="favorite" style="border: 2px solid #FFFFFF;">
+            <p>
+                {{article_like_list[0]["title"]}}
+            </p>
+        </div>
+        <div class="king" style="border: 2px solid #FFFFFF;">
+            {% for i in range(3) %}
+            <li>{{ i+1 }}등 {{ ranking_names[i] }}</li>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="body2">
+        <div class="communication">
+            <h2 style="color:#FFFFFF">소통 게시판</h2>
+            {% set count = namespace(value=0) %}
+            {% for article in article_new_list %}
+            {% if article["articleclass"] == "communication" %}
+            <li id="communication_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
+            <hr>
+            {% set count.value = count.value + 1 %}
+            {% if count.value == 3 %}
+            {% break %}
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="study">
+            <h2 style="color:#FFFFFF">소통 게시판</h2>
+            {% set count = namespace(value=0) %}
+            {% for article in article_new_list %}
+            {% if article["articleclass"] == "study" %}
+            <li id="study_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
+            <hr>
+            {% set count.value = count.value + 1 %}
+            {% if count.value == 3 %}
+            {% break %}
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="lifeinfo">
+            <h2 style="color:#FFFFFF">소통 게시판</h2>
+            {% set count = namespace(value=0) %}
+            {% for article in article_new_list %}
+            {% if article["articleclass"] == "lifeinfo" %}
+            <li id="lifeinfo_{{count.value}}">{{ article["title"] }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["articleclass"] }}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ article["like"] }}</li>
+            <hr>
+            {% set count.value = count.value + 1 %}
+            {% if count.value == 3 %}
+            {% break %}
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+-->

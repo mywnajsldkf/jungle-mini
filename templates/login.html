@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JungleMini</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script>
+        function login(){
+            let email = $('#email').val()
+            let password = $('#password').val()
+            $.ajax({
+                        type: 'POST',
+                        url: '/login',
+                        data: {email_give: email, password_give: password},
+                        success: function (response) {
+                            // console.log(response)
+                            let access_token = response['usertoken']
+                            //console.log(access_token)
+                            if (response['result'] == 'success') {
+                                $.cookie('mytoken', response['usertoken'], {expires: 1/24,path: '/'});
+                                window.location.replace("/home")
+                            } else {
+                                let empty1 = document.getElementById("email")
+                                let empty2 = document.getElementById("password")
+                                empty1.value=null
+                                empty2.value=null
+                                alert(response['msg']) 
+                            }                            
+                        }
+                    }); 
+        }
+    </script>
+</head>
+<body>
+    <div class="join-form">
+        <div class="join-title">LOGIN</div>
+        <div class="join-input-form">
+            <div class="validate-input">
+                <input class="title-input" type="text" name="email" id="email" placeholder="이메일"></input>
+            </div>
+            <div>
+                <input class="title-input" type="password" name="password" id="password" placeholder="비밀번호"></input>
+            </div>
+            <button type="submit" onclick="login()">로그인</button> 
+        </div>
+        <a href="http://localhost:5000/join" style="color: #61D383;">회원가입하기</a>
+    </div>
+</body>
+</html>
