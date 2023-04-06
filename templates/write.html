@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>정글미니</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="../static/style.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +34,7 @@
                 data: {title_give: title, category_give: category, content_give: content},
                 success: function(response) {
                     if(response["result"] == "success"){
-                        location.href = "http://localhost:5000/board/"+response["category"]
+                        location.href = "/board/"+response["category"]
                     }else {
                         alert("글 작성을 실패했습니다.");
                     }

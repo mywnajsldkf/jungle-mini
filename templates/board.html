@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;900&display=swap" rel="stylesheet">    
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <title>Document</title>
+    <title>정글미니</title>
     <script>
         $(document).ready(function() {
             login_mypage_btn()
@@ -91,9 +91,9 @@
         <div class="board">
             <nav class="category-navigation">
                 <!--TODO: URL 수정-->
-                <a class="category-title" href="http://localhost:5000/board/1">소통 게시판</a>
-                <a class="category-title" href="http://localhost:5000/board/2">열공 게시판</a>
-                <a class="category-title" href="http://localhost:5000/board/3">생활 정보</a>
+                <a class="category-title" href="/board/1">소통 게시판</a>
+                <a class="category-title" href="/board/2">열공 게시판</a>
+                <a class="category-title" href="/board/3">생활 정보</a>
             </nav>
             <div class="articles">
                 {% for article in board %}
